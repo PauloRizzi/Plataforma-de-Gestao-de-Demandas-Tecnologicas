@@ -114,7 +114,7 @@ class UsuarioController extends Controller
                 $usuario->aprovado_por = auth()->id();
                 $usuario->aprovado_em = now();
 
-                // A escola digitada no cadastro é conferida junto com a aprovação do demandante.
+                // A comunidade/instituição digitada no cadastro é conferida junto com a aprovação do demandante.
                 $usuario->demandante?->escolaInstituicao()->where('ativo', false)->update(['ativo' => true]);
             }
 
@@ -146,7 +146,7 @@ class UsuarioController extends Controller
             'telefone.regex' => 'Informe o telefone no formato (28) 99999-9999.',
         ], [
             'curso_id' => 'curso',
-            'escola_instituicao_id' => 'escola ou instituição',
+            'escola_instituicao_id' => 'comunidade ou instituição',
         ]);
 
         $perfilAnterior = $usuario->perfil;
@@ -189,7 +189,7 @@ class UsuarioController extends Controller
 
     /**
      * E10 do teste completo: o admin corrige os dados do usuário (e os do perfil atual) sem trocar o perfil.
-     * O e-mail não muda aqui, porque é o login. Mudar o demandante de escola também é feito aqui (E11).
+     * O e-mail não muda aqui, porque é o login. Mudar o demandante de comunidade/instituição também é feito aqui (E11).
      */
     public function atualizarDados(Request $request, Usuario $usuario): RedirectResponse
     {
@@ -225,14 +225,14 @@ class UsuarioController extends Controller
             'telefone.regex' => 'Informe o telefone no formato (28) 99999-9999.',
         ], [
             'curso_id' => 'curso',
-            'escola_instituicao_id' => 'escola ou instituição',
+            'escola_instituicao_id' => 'comunidade ou instituição',
             'matricula' => 'matrícula',
         ]);
 
         DB::transaction(function () use ($usuario, $perfil, $dados): void {
             $usuario->update(['nome' => $dados['nome'], 'telefone' => $dados['telefone'] ?? null]);
 
-            // As demandas já abertas guardam a escola da abertura; a troca vale para as próximas.
+            // As demandas já abertas guardam a comunidade/instituição da abertura; a troca vale para as próximas.
             match ($perfil) {
                 Perfil::Estudante => $usuario->estudante()->updateOrCreate([], ['matricula' => $dados['matricula'], 'curso_id' => $dados['curso_id']]),
                 Perfil::Demandante => $usuario->demandante()->updateOrCreate([], ['escola_instituicao_id' => $dados['escola_instituicao_id'], 'cargo' => $dados['cargo']]),
@@ -245,8 +245,8 @@ class UsuarioController extends Controller
     }
 
     /**
-     * E11 do teste completo: só a escola nova, digitada no cadastro e ainda não conferida, é corrigida por aqui.
-     * A escola já conferida vale para todos os que a usam; para mudar o demandante de escola, use "Editar dados".
+     * E11 do teste completo: só a comunidade/instituição nova, digitada no cadastro e ainda não conferida, é corrigida por aqui.
+     * A comunidade/instituição já conferida vale para todos os que a usam; para mudar o demandante de comunidade/instituição, use "Editar dados".
      */
     public function atualizarEscola(Request $request, Usuario $usuario): RedirectResponse
     {
@@ -254,7 +254,7 @@ class UsuarioController extends Controller
         abort_unless($escola, 404);
 
         if ($escola->ativo) {
-            return back()->withErrors(['escola' => 'Esta escola já foi conferida e vale para todos os que a usam. Para mudar o demandante de escola, use "Editar dados".']);
+            return back()->withErrors(['escola' => 'Esta comunidade/instituição já foi conferida e vale para todos os que a usam. Para mudar o demandante de comunidade/instituição, use "Editar dados".']);
         }
 
         $dados = $request->validate([
@@ -268,7 +268,7 @@ class UsuarioController extends Controller
         $dados['uf'] = mb_strtoupper($dados['uf']);
         $escola->update($dados);
 
-        return redirect()->route('admin.usuarios.show', $usuario)->with('sucesso', 'Dados da escola/instituição atualizados.');
+        return redirect()->route('admin.usuarios.show', $usuario)->with('sucesso', 'Dados da comunidade/instituição atualizados.');
     }
 
     /**

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('projeto_base_id')->constrained('projetos_base')->restrictOnDelete();
             $table->foreignId('demandante_id')->constrained('usuarios')->restrictOnDelete();
-            // Copiada do demandante na abertura, para os relatórios não mudarem se ele trocar de escola.
+            // Copiada do demandante na abertura, para os relatórios não mudarem se ele trocar de comunidade/instituição.
             $table->foreignId('escola_instituicao_id')->constrained('escolas_instituicoes')->restrictOnDelete();
             $table->string('titulo', 100);
             $table->text('descricao');

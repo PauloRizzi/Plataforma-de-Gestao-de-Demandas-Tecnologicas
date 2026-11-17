@@ -89,7 +89,7 @@
                             <div class="small text-muted">Coordenação: {{ $solicitacao->projetoBase->coordenador?->nome ?? 'a definir' }}</div>
                         </dd>
 
-                        <dt class="small text-muted">Escola/instituição</dt>
+                        <dt class="small text-muted">Comunidade/instituição</dt>
                         <dd>{{ $solicitacao->escolaInstituicao?->nomeCompleto() ?? 'Não informada' }}</dd>
 
                         <dt class="small text-muted">Demandante</dt>
@@ -108,7 +108,7 @@
                                 @endcan
                             @else
                                 <span class="text-muted">Sem demandante no sistema</span>
-                                <div class="small text-muted">O contato com a escola e o aceite ficam com a coordenação.</div>
+                                <div class="small text-muted">O contato com a comunidade/instituição e o aceite ficam com a coordenação.</div>
                             @endif
                         </dd>
 

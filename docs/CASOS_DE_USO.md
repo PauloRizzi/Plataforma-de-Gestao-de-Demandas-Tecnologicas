@@ -12,7 +12,7 @@ Os casos de uso descrevem o sistema como está implementado (novembro de 2026) e
 |---|---|---|
 | **Visitante** | Qualquer pessoa sem login | — |
 | **Estudante Extensionista** | Aluno da UFES que participa das equipes | Autocadastro com e-mail `@edu.ufes.br` e aprovação do admin |
-| **Demandante** | Representante de uma escola ou instituição da comunidade | Autocadastro e aprovação do admin |
+| **Demandante** | Representante de uma comunidade ou instituição | Autocadastro e aprovação do admin |
 | **Coordenador projeto de extensão** | Professor que coordena um projeto de extensão | Convite do admin |
 | **Administrador** | Responsável pela plataforma | Criado na instalação ou pelo painel |
 | **Sistema de e-mail** | Ator secundário: a fila que envia os avisos | — |
@@ -213,11 +213,11 @@ Cada caso traz os atores, o requisito, as condições antes e depois e os fluxos
 - **Ator:** Visitante. **RF:** RF02.
 - **Pré-condição:** nenhuma.
 - **Fluxo principal:**
-  1. O visitante clica em "Criar conta" e escolhe "Represento uma escola ou instituição".
-  2. Preenche nome, e-mail, escola (da lista), cargo, telefone, senha e confirmação.
+  1. O visitante clica em "Criar conta" e escolhe "Represento uma comunidade ou instituição".
+  2. Preenche nome, e-mail, comunidade/instituição (da lista), cargo, telefone, senha e confirmação.
   3. O sistema cria a conta "Pendente" com o perfil Demandante e mostra "Cadastro em análise".
   4. O administrador aprova o cadastro (UC07), e o demandante recebe o aviso por e-mail.
-- **FA1 – Escola não está na lista:** o visitante escolhe "Não encontrei minha escola" e digita nome, tipo, cidade e UF. A escola nova fica inativa até o admin conferir, junto com a aprovação.
+- **FA1 – Comunidade/instituição não está na lista:** o visitante escolhe "Não encontrei minha comunidade/instituição" e digita nome, tipo, cidade e UF. A comunidade/instituição nova fica inativa até o admin conferir, junto com a aprovação.
 - **FA2 – E-mail da UFES:** o sistema pergunta se a pessoa quer se cadastrar como estudante; ela pode continuar como demandante.
 - **FA3 – Cadastro rejeitado:** o demandante recebe o motivo por e-mail.
 - **Pós-condição:** conta de demandante "Ativo", depois da aprovação.
@@ -255,14 +255,14 @@ Cada caso traz os atores, o requisito, as condições antes e depois e os fluxos
   2. Altera nome, telefone e os dados do seu perfil (curso, cargo ou SIAPE e departamento) e salva.
 - **FA1 – Foto:** o usuário envia uma imagem. O sistema recorta em quadrado, regrava sem os dados ocultos e mostra a foto no menu, no chat e na equipe. Ele também pode remover a foto.
 - **FA2 – Senha:** o usuário informa a senha atual e a nova.
-- **Pós-condição:** dados atualizados. E-mail, perfil, status, matrícula e escola só mudam pelo administrador.
+- **Pós-condição:** dados atualizados. E-mail, perfil, status, matrícula e comunidade/instituição só mudam pelo administrador.
 
 ### UC07 - Administrar usuários
 - **Ator:** Administrador. **RF:** RF04.
 - **Pré-condição:** estar logado como administrador.
 - **Fluxo principal:**
   1. O admin abre "Usuários" e filtra por nome, e-mail, perfil ou status.
-  2. Abre um usuário "Pendente", confere os dados (e a escola nova, se houver) e aprova.
+  2. Abre um usuário "Pendente", confere os dados (e a comunidade/instituição nova, se houver) e aprova.
   3. O sistema ativa a conta e avisa a pessoa por e-mail.
 - **FA1 – Rejeitar ou inativar:** o admin informa o motivo e confirma. A pessoa não entra mais e vê o motivo.
 - **FA2 – Reativar:** o admin muda o status para "Ativo".
@@ -317,9 +317,9 @@ Cada caso traz os atores, o requisito, as condições antes e depois e os fluxos
   1. O demandante abre "Minhas demandas" → "Nova demanda".
   2. Escolhe o projeto de extensão e preenche título, descrição, justificativa e público afetado.
   3. Anexa arquivos, se quiser, arrastando para a área de envio.
-  4. O sistema confere os arquivos, grava a demanda como "Cadastrada" com a escola do demandante e registra a abertura na linha do tempo.
+  4. O sistema confere os arquivos, grava a demanda como "Cadastrada" com a comunidade/instituição do demandante e registra a abertura na linha do tempo.
   5. O sistema avisa a coordenação do projeto por e-mail (UC24).
-- **FA1 – Aberta pela coordenação:** o coordenador (nos seus projetos) ou o admin escolhe a escola e o demandante que acompanha, os dois opcionais. A linha do tempo registra em nome de quem a demanda foi aberta, e o demandante indicado recebe um aviso.
+- **FA1 – Aberta pela coordenação:** o coordenador (nos seus projetos) ou o admin escolhe a comunidade/instituição e o demandante que acompanha, os dois opcionais. A linha do tempo registra em nome de quem a demanda foi aberta, e o demandante indicado recebe um aviso.
 - **FA2 – Arquivo inválido:** o sistema recusa o arquivo (tipo, tamanho ou quantidade) e cita o nome dele.
 - **Pós-condição:** demanda "Cadastrada" na fila da coordenação.
 
@@ -432,7 +432,7 @@ Cada caso traz os atores, o requisito, as condições antes e depois e os fluxos
   3. O sistema registra o aceite e avisa a equipe e a coordenação.
   4. O sistema sugere à coordenação mudar a demanda para "Concluída" (UC14).
 - **FA1 – Reportar Pendência:** o comentário é obrigatório. A entrega volta para a equipe, e a coordenação pode mudar a demanda para "Aguardando Ajustes".
-- **FA2 – Registrado pela coordenação:** quando a escola confirma por outro meio ou não tem demandante no sistema, a linha do tempo indica "registrado pela coordenação".
+- **FA2 – Registrado pela coordenação:** quando a comunidade/instituição confirma por outro meio ou não tem demandante no sistema, a linha do tempo indica "registrado pela coordenação".
 - **Pós-condição:** entrega aceita ou com pendência; decisão imutável.
 
 ### UC22 - Emitir o relatório de extensionistas
@@ -449,7 +449,7 @@ Cada caso traz os atores, o requisito, as condições antes e depois e os fluxos
 - **Atores:** Coordenador, Administrador. **RF:** RF18.
 - **Fluxo principal:**
   1. O usuário abre "Dashboard".
-  2. O sistema mostra os totais, os tempos médios de atendimento e de primeira resposta e as barras por status, categoria, escola e projeto.
+  2. O sistema mostra os totais, os tempos médios de atendimento e de primeira resposta e as barras por status, categoria, comunidade/instituição e projeto.
   3. O usuário filtra por período de abertura e por projeto.
 - **FA1 – Coordenador:** os números consideram só as demandas dos seus projetos.
 - **Pós-condição:** nenhum dado é alterado.

@@ -68,7 +68,7 @@
                         @if ($usuario->perfil === Perfil::Demandante && $usuario->demandante)
                             <dt class="col-sm-4">Cargo</dt>
                             <dd class="col-sm-8">{{ $usuario->demandante->cargo }}</dd>
-                            <dt class="col-sm-4">Escola/instituição</dt>
+                            <dt class="col-sm-4">Comunidade/instituição</dt>
                             <dd class="col-sm-8">
                                 {{ $escola->nomeCompleto() }}
                                 @unless ($escola->ativo)
@@ -110,7 +110,7 @@
                 <div class="card-body">
                     <p class="small text-muted mb-2">Corrija aqui nome, telefone e os dados do perfil atual{{ match ($usuario->perfil) {
                         Perfil::Estudante => ' (matrícula e curso)',
-                        Perfil::Demandante => ' (escola e cargo)',
+                        Perfil::Demandante => ' (comunidade/instituição e cargo)',
                         Perfil::Coordenador => ' (SIAPE e departamento)',
                         default => '',
                     } }}, sem trocar o perfil.</p>
@@ -155,13 +155,13 @@
                         @elseif ($usuario->perfil === Perfil::Demandante)
                             <div class="row g-2 mb-2">
                                 <div class="col-md-7">
-                                    <label for="dados_escola" class="form-label small">Escola/instituição</label>
+                                    <label for="dados_escola" class="form-label small">Comunidade/instituição</label>
                                     <select id="dados_escola" name="escola_instituicao_id" class="form-select form-select-sm @error('escola_instituicao_id', 'dados') is-invalid @enderror">
                                         @foreach ($escolasDoDemandante as $opcaoEscola)
                                             <option value="{{ $opcaoEscola->id }}" @selected((string) old('escola_instituicao_id', $usuario->demandante?->escola_instituicao_id) === (string) $opcaoEscola->id)>{{ $opcaoEscola->nomeCompleto() }}{{ $opcaoEscola->ativo ? '' : ' (nova, a conferir)' }}</option>
                                         @endforeach
                                     </select>
-                                    <div class="form-text">Trocar a escola muda só este demandante. As demandas já abertas continuam com a escola da abertura.</div>
+                                    <div class="form-text">Trocar a comunidade/instituição muda só este demandante. As demandas já abertas continuam com a comunidade/instituição da abertura.</div>
                                 </div>
                                 <div class="col-md-5">
                                     <label for="dados_cargo" class="form-label small">Cargo</label>
@@ -187,12 +187,12 @@
                 </div>
             </div>
 
-            {{-- E11 do teste completo: só a escola nova, ainda não conferida; a conferida vale para todos os que a usam. --}}
+            {{-- E11 do teste completo: só a comunidade/instituição nova, ainda não conferida; a conferida vale para todos os que a usam. --}}
             @if ($escola && ! $escola->ativo && ! $proprioUsuario)
                 <div class="card shadow-sm mb-3">
-                    <div class="card-header bg-white fw-semibold">Conferir escola/instituição nova</div>
+                    <div class="card-header bg-white fw-semibold">Conferir comunidade/instituição nova</div>
                     <div class="card-body">
-                        <p class="small text-muted">Escola digitada pelo demandante. Corrija os dados se precisar; ela passa a aparecer na lista quando o cadastro for aprovado.</p>
+                        <p class="small text-muted">Comunidade/instituição digitada pelo demandante. Corrija os dados se precisar; ela passa a aparecer na lista quando o cadastro for aprovado.</p>
                         <form method="POST" action="{{ route('admin.usuarios.escola', $usuario) }}" novalidate>
                             @csrf
                             @method('PATCH')
@@ -210,7 +210,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="escola_inep" class="form-label small">Código INEP</label>
+                                    <label for="escola_inep" class="form-label small">Código INEP <span class="text-muted">(só para escolas)</span></label>
                                     <input id="escola_inep" name="codigo_inep" class="form-control form-control-sm" value="{{ old('codigo_inep', $escola->codigo_inep) }}" maxlength="8" inputmode="numeric">
                                 </div>
                                 <div class="col-md-3">
@@ -222,7 +222,7 @@
                                     <input id="escola_uf" name="uf" class="form-control form-control-sm text-uppercase" value="{{ old('uf', $escola->uf) }}" maxlength="2" required>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-outline-primary">Salvar dados da escola</button>
+                            <button type="submit" class="btn btn-sm btn-outline-primary">Salvar dados da comunidade/instituição</button>
                         </form>
                     </div>
                 </div>
@@ -315,7 +315,7 @@
                             </div>
 
                             <div data-perfil-campos="demandante" class="d-none">
-                                <label for="perfil_escola" class="form-label small">Escola/instituição</label>
+                                <label for="perfil_escola" class="form-label small">Comunidade/instituição</label>
                                 <select id="perfil_escola" name="escola_instituicao_id" class="form-select form-select-sm mb-2">
                                     <option value="">Selecione</option>
                                     @foreach ($escolas as $opcaoEscola)

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->char('uf', 2);
             $table->string('telefone', 20)->nullable();
             $table->string('email', 150)->nullable();
-            // Escola digitada pelo demandante nasce inativa e é ativada pelo admin na aprovação.
+            // Comunidade/instituição digitada pelo demandante nasce inativa e é ativada pelo admin na aprovação.
             $table->boolean('ativo')->default(true);
             $table->timestamps();
         });

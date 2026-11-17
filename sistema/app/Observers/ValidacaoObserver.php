@@ -27,7 +27,7 @@ class ValidacaoObserver
             'descricao' => "{$validacao->etapa->rotulo()} da entrega nº {$entrega->numero} \"{$entrega->titulo}\": {$validacao->decisao->rotulo()}"
                 .match (true) {
                     ! $emNomeDoDemandante => '',
-                    $solicitacao->demandante_id === null => ' (registrado pela coordenação em nome da escola)',
+                    $solicitacao->demandante_id === null => ' (registrado pela coordenação em nome da comunidade/instituição)',
                     default => ' (registrado pela coordenação em nome do demandante)',
                 },
             'dados' => array_filter([

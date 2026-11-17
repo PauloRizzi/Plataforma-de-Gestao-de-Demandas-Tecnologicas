@@ -2,7 +2,7 @@
  * Combos com pesquisa (Fase 9): todo <select class="form-select"> ganha uma caixa de busca,
  * para achar o registro quando a lista é grande. O <select> original continua no formulário
  * (escondido) e é ele que vai no envio; o combo só troca o valor e dispara o evento "change".
- * Opções escondidas ou desativadas por outro script (ex.: demandantes de outra escola) não aparecem.
+ * Opções escondidas ou desativadas por outro script (ex.: demandantes de outra comunidade/instituição) não aparecem.
  * Para manter o combo nativo, use `data-sem-pesquisa` no <select>.
  */
 

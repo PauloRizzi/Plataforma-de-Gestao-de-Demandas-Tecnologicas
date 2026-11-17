@@ -164,7 +164,7 @@ function iniciarAvisoUfes() {
     });
 }
 
-/** Alterna entre escolher a escola na lista e digitar uma nova. */
+/** Alterna entre escolher a comunidade/instituição na lista e digitar uma nova. */
 function iniciarEscolhaEscola() {
     const modo = document.getElementById('escola_modo');
 
@@ -265,7 +265,7 @@ function iniciarTrocaPerfil() {
 
             if (novo === atual) {
                 evento.preventDefault();
-                avisar('Escolha um perfil diferente do atual. Para corrigir os dados sem trocar o perfil (curso, matrícula, escola, cargo, SIAPE), use "Editar dados".');
+                avisar('Escolha um perfil diferente do atual. Para corrigir os dados sem trocar o perfil (curso, matrícula, comunidade/instituição, cargo, SIAPE), use "Editar dados".');
                 return;
             }
 
@@ -485,9 +485,9 @@ function iniciarDecisaoValidacao() {
 }
 
 /**
- * Nova demanda pela coordenação (Fase 9): com uma escola escolhida, mostra só os demandantes dela;
- * sem escola, mostra todos, e escolher um demandante preenche a escola dele.
- * Se o demandante escolhido não for da escola, volta para "Sem demandante no sistema".
+ * Nova demanda pela coordenação (Fase 9): com uma comunidade/instituição escolhida, mostra só os demandantes dela;
+ * sem comunidade/instituição, mostra todos, e escolher um demandante preenche a comunidade/instituição dele.
+ * Se o demandante escolhido não for da comunidade/instituição, volta para "Sem demandante no sistema".
  */
 function iniciarEscolhaDemandante() {
     document.querySelectorAll('[data-escolha-demandante]').forEach((bloco) => {
@@ -514,7 +514,7 @@ function iniciarEscolhaDemandante() {
             }
 
             demandante.options[0].textContent = escola.value && !algum
-                ? 'Sem demandante no sistema (a escola não tem ninguém cadastrado)'
+                ? 'Sem demandante no sistema (a comunidade/instituição não tem ninguém cadastrado)'
                 : 'Sem demandante no sistema';
         };
 

@@ -15,7 +15,7 @@
                 <div class="card-body p-4 text-center">
                     <div class="display-5 mb-3" aria-hidden="true">🎓</div>
                     <h2 class="h4">Sou estudante da UFES</h2>
-                    <p class="text-muted mb-4">Quero participar dos projetos de extensão e atender às demandas das escolas.</p>
+                    <p class="text-muted mb-4">Quero participar dos projetos de extensão e atender às demandas das comunidades/instituições.</p>
                     <p class="small text-muted mb-4">Você vai precisar do seu e-mail <strong>@edu.ufes.br</strong> e da sua matrícula.</p>
                     <span class="btn btn-primary">Cadastrar como estudante</span>
                 </div>
@@ -26,9 +26,9 @@
             <a href="{{ route('cadastro.demandante') }}" class="card h-100 shadow-sm text-decoration-none text-body cartao-escolha">
                 <div class="card-body p-4 text-center">
                     <div class="display-5 mb-3" aria-hidden="true">🏫</div>
-                    <h2 class="h4">Represento uma escola ou instituição</h2>
-                    <p class="text-muted mb-4">Quero solicitar apoio tecnológico para a minha escola ou instituição.</p>
-                    <p class="small text-muted mb-4">Você vai precisar dos dados da escola e do seu cargo.</p>
+                    <h2 class="h4">Represento uma comunidade ou instituição</h2>
+                    <p class="text-muted mb-4">Quero solicitar apoio tecnológico para a minha comunidade ou instituição.</p>
+                    <p class="small text-muted mb-4">Você vai precisar dos dados da comunidade/instituição e do seu cargo.</p>
                     <span class="btn btn-primary">Cadastrar como demandante</span>
                 </div>
             </a>

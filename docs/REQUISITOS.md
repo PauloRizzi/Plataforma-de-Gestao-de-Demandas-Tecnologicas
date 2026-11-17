@@ -4,10 +4,10 @@
 - **Regra de Negócio:** O sistema cria a conta com o perfil "Estudante Extensionista" e envia um link de confirmação de e-mail. Após a confirmação, a conta fica com o status "Pendente" até a aprovação do Administrador; nesse período, o estudante visualiza apenas a tela "Cadastro em análise". E-mails de fora do domínio são recusados, com indicação do cadastro institucional. A senha deve ter no mínimo 8 caracteres, com letras e números.
 - **Permissões:** Acesso público para novos usuários acadêmicos.
 
-**RF02 - Cadastro Institucional (Comunidade/Escolas):** Porta de entrada exclusiva para solicitantes externos vinculados à comunidade.
+**RF02 - Cadastro Institucional (Comunidades/Instituições):** Porta de entrada exclusiva para solicitantes externos vinculados à comunidade.
 
-- **Campos Disponíveis:** Nome Completo, E-mail de Contato, Escola / Instituição (lista suspensa com pesquisa ou, em "Não encontrei minha escola", nome, tipo, cidade e UF da nova escola), Cargo / Função (texto livre), Telefone / WhatsApp com máscara (obrigatório), Senha e Confirmação de Senha.
-- **Regra de Negócio:** O sistema gera a conta com o perfil de "Demandante" e define o status inicial como "Pendente" para moderação. A escola informada manualmente fica pendente de conferência pelo Administrador. Caso o e-mail informado seja da UFES, o sistema pergunta se o usuário deseja se cadastrar como estudante.
+- **Campos Disponíveis:** Nome Completo, E-mail de Contato, Comunidade / Instituição (lista suspensa com pesquisa ou, em "Não encontrei minha comunidade/instituição", nome, tipo, cidade e UF da nova comunidade/instituição), Cargo / Função (texto livre), Telefone / WhatsApp com máscara (obrigatório), Senha e Confirmação de Senha.
+- **Regra de Negócio:** O sistema gera a conta com o perfil de "Demandante" e define o status inicial como "Pendente" para moderação. A comunidade/instituição informada manualmente fica pendente de conferência pelo Administrador. Caso o e-mail informado seja da UFES, o sistema pergunta se o usuário deseja se cadastrar como estudante.
 - **Permissões:** Acesso público para novos usuários da comunidade.
 
 **RF03 - Acesso e Recuperação de Credenciais:** Funcionalidade de login seguro via e-mail e senha, contemplando um fluxo autônomo para recuperação de credenciais.
@@ -18,7 +18,7 @@
 
 **RF04 - Administração de Usuários:** Painel restrito para o gerenciamento global de contas e moderação de acessos.
 
-- **Parâmetros Disponíveis:** Tela de listagem com filtros de busca por Nome, E-mail, Perfil e Status; tela de detalhes do usuário com opções para aprovar ou rejeitar o cadastro, alterar o status da conta (Ativo, Inativo, Pendente, Rejeitado), trocar o perfil de acesso, editar os dados cadastrais (nome, telefone, matrícula, curso, escola, cargo, SIAPE e departamento) e conferir a escola informada no cadastro.
+- **Parâmetros Disponíveis:** Tela de listagem com filtros de busca por Nome, E-mail, Perfil e Status; tela de detalhes do usuário com opções para aprovar ou rejeitar o cadastro, alterar o status da conta (Ativo, Inativo, Pendente, Rejeitado), trocar o perfil de acesso, editar os dados cadastrais (nome, telefone, matrícula, curso, comunidade/instituição, cargo, SIAPE e departamento) e conferir a comunidade/instituição informada no cadastro.
 - **Regra de Negócio:** Somente contas com status "Ativo" utilizam o sistema. A rejeição e a inativação exigem motivo e confirmação. A troca de perfil exibe o perfil atual e o novo antes de salvar; ao inativar ou trocar o perfil de um Coordenador, os projetos sob sua responsabilidade passam para a administração. O e-mail não é alterado pelo Administrador, por ser o login do usuário.
 - **Permissões:** Acesso restrito e exclusivo ao perfil Administrador.
 
@@ -30,9 +30,9 @@
 
 **RF06 - Abertura de Solicitações (Demandas):** Área onde o Demandante seleciona um projeto de extensão pré-cadastrado na plataforma para registrar e formalizar a sua necessidade tecnológica.
 
-- **Parâmetros Disponíveis:** Seleção do projeto de extensão, Título da Demanda (máximo de 100 caracteres), Descrição Detalhada do cenário atual e do problema, Justificativa da importância, Público Afetado e Anexos (área de *drag-and-drop* ou seleção de arquivos em PDF, JPG ou PNG, até 5 arquivos de 5 MB). Na abertura pela coordenação: seleção da escola/instituição e do demandante responsável (ambos opcionais).
-- **Regra de Negócio:** A nova solicitação é vinculada diretamente à iniciativa extensionista escolhida, com o status "Cadastrada", iniciando o ciclo de atendimento institucional. A escola é obtida do cadastro do Demandante. Os anexos são armazenados fora da área pública do servidor. O Demandante acompanha as suas solicitações em "Minhas demandas" e pode cancelá-las, com motivo, até o início do desenvolvimento.
-- **Permissões:** Demandante (para a própria escola), Coordenador Projeto de Extensão (nos projetos que coordena) e Administrador.
+- **Parâmetros Disponíveis:** Seleção do projeto de extensão, Título da Demanda (máximo de 100 caracteres), Descrição Detalhada do cenário atual e do problema, Justificativa da importância, Público Afetado e Anexos (área de *drag-and-drop* ou seleção de arquivos em PDF, JPG ou PNG, até 5 arquivos de 5 MB). Na abertura pela coordenação: seleção da comunidade/instituição e do demandante responsável (ambos opcionais).
+- **Regra de Negócio:** A nova solicitação é vinculada diretamente à iniciativa extensionista escolhida, com o status "Cadastrada", iniciando o ciclo de atendimento institucional. A comunidade/instituição é obtida do cadastro do Demandante. Os anexos são armazenados fora da área pública do servidor. O Demandante acompanha as suas solicitações em "Minhas demandas" e pode cancelá-las, com motivo, até o início do desenvolvimento.
+- **Permissões:** Demandante (para a própria comunidade/instituição), Coordenador Projeto de Extensão (nos projetos que coordena) e Administrador.
 
 **RF07 - Triagem e Parametrização:** Fila de trabalho na qual o Coordenador analisa as novas demandas, classificando a categoria, a complexidade e definindo a prioridade de atendimento.
 
@@ -73,8 +73,8 @@
 **RF13 - Validação e Aceite:** Fluxo de aprovação em etapas para aceitar tanto soluções de software quanto a execução de serviços presenciais e manutenções de hardware.
 
 - **Parâmetros Disponíveis:** Painel da entrega submetida com o conteúdo, os arquivos e as decisões anteriores; caixa de comentário obrigatória para devolução e para pendência; botões de ação do Coordenador ("Aprovar Tecnicamente" e "Devolver para Ajustes"); e botões de ação do Demandante ("Aceitar Solução" para o aceite final do serviço/produto e "Reportar Pendência").
-- **Regra de Negócio:** Estabelece o portão de qualidade institucional em duas etapas, permitindo que a escola ateste o recebimento e o funcionamento prático da demanda atendida. O Demandante visualiza a entrega somente após a aprovação técnica. A demanda só pode ser concluída com ao menos uma entrega aceita. Quando a escola confirma o aceite por outro meio ou não possui demandante cadastrado, a coordenação registra a decisão em seu nome, com indicação no histórico. As decisões não podem ser editadas nem excluídas.
-- **Permissões:** Acesso restrito ao Coordenador e ao Administrador (avaliação técnica) e ao Demandante da escola solicitante (aceite final).
+- **Regra de Negócio:** Estabelece o portão de qualidade institucional em duas etapas, permitindo que a comunidade/instituição ateste o recebimento e o funcionamento prático da demanda atendida. O Demandante visualiza a entrega somente após a aprovação técnica. A demanda só pode ser concluída com ao menos uma entrega aceita. Quando a comunidade/instituição confirma o aceite por outro meio ou não possui demandante cadastrado, a coordenação registra a decisão em seu nome, com indicação no histórico. As decisões não podem ser editadas nem excluídas.
+- **Permissões:** Acesso restrito ao Coordenador e ao Administrador (avaliação técnica) e ao Demandante da comunidade/instituição solicitante (aceite final).
 
 **RF14 - Consulta Pública de Projetos:** Página de acesso aberto, sem necessidade de login, com os projetos de extensão cadastrados e os sub-projetos com vagas abertas.
 
@@ -84,7 +84,7 @@
 
 **RF15 - Relatório de Demandas por Extensionista:** Relatório das demandas executadas por cada Estudante Extensionista, com o período e a carga horária de participação.
 
-- **Parâmetros Disponíveis:** Seção por estudante com, para cada sub-projeto: título, projeto de extensão, escola/instituição, papel do estudante, data de início, data de fim e carga horária estimada, com o total de horas; filtros por estudante, período, projeto de extensão e status; e botão "Exportar PDF".
+- **Parâmetros Disponíveis:** Seção por estudante com, para cada sub-projeto: título, projeto de extensão, comunidade/instituição, papel do estudante, data de início, data de fim e carga horária estimada, com o total de horas; filtros por estudante, período, projeto de extensão e status; e botão "Exportar PDF".
 - **Regra de Negócio:** As datas e a carga horária são obtidas do sub-projeto, refletindo as correções realizadas pela coordenação. O filtro de período considera os sub-projetos iniciados e concluídos no intervalo. Membros removidos da equipe não são listados.
 - **Permissões:** Administrador (todos os estudantes), Coordenador (estudantes das equipes dos seus projetos) e Estudante Extensionista (apenas o próprio relatório).
 
@@ -102,7 +102,7 @@
 
 **RF18 - Dashboard Gerencial:** Painel com os indicadores do atendimento, para o acompanhamento e a prestação de contas do projeto de extensão.
 
-- **Parâmetros Disponíveis:** Totais de demandas (em triagem, em execução e concluídas), tempo médio de atendimento, tempo médio da primeira resposta e gráficos por status, categoria, escola/instituição e projeto de extensão; filtros por período de abertura e por projeto.
+- **Parâmetros Disponíveis:** Totais de demandas (em triagem, em execução e concluídas), tempo médio de atendimento, tempo médio da primeira resposta e gráficos por status, categoria, comunidade/instituição e projeto de extensão; filtros por período de abertura e por projeto.
 - **Regra de Negócio:** Os tempos médios são calculados a partir do histórico das demandas. O Coordenador visualiza apenas as demandas dos seus projetos.
 - **Permissões:** Acesso restrito ao Coordenador Projeto de Extensão e ao Administrador.
 
@@ -121,7 +121,7 @@
 **RF21 - Meu Perfil:** Área na qual cada usuário mantém os próprios dados de acesso.
 
 - **Parâmetros Disponíveis:** Aba "Meus dados" (nome, telefone e os dados do perfil: curso, cargo ou SIAPE e departamento); aba "Senha" (senha atual, nova senha e confirmação); e foto de perfil (enviar, trocar ou remover).
-- **Regra de Negócio:** E-mail, perfil, status, matrícula e escola são alterados apenas pelo Administrador. A foto é recortada e regravada pelo sistema, removendo os metadados do arquivo; sem foto, é exibido um avatar padrão do perfil. A foto é exibida somente para usuários autenticados.
+- **Regra de Negócio:** E-mail, perfil, status, matrícula e comunidade/instituição são alterados apenas pelo Administrador. A foto é recortada e regravada pelo sistema, removendo os metadados do arquivo; sem foto, é exibido um avatar padrão do perfil. A foto é exibida somente para usuários autenticados.
 - **Permissões:** Usuários com conta ativa, apenas sobre a própria conta.
 
 **RF22 - Vínculo de Estudantes ao Projeto de Extensão:** Definição dos Estudantes Extensionistas de cada projeto de extensão, aptos a participar dos seus sub-projetos.

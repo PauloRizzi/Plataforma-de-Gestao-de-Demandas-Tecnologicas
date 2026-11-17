@@ -16,7 +16,7 @@ use Illuminate\View\View;
  * Fase 9: "Meu perfil". Cada usuário edita os próprios dados, a foto e a senha.
  *
  * Ficam de fora o que identifica a conta ou depende de conferência do admin:
- * e-mail (login), perfil, status, matrícula do estudante e escola do demandante.
+ * e-mail (login), perfil, status, matrícula do estudante e comunidade/instituição do demandante.
  */
 class PerfilController extends Controller
 {
@@ -118,7 +118,7 @@ class PerfilController extends Controller
 
         return [
             'nome' => ['required', 'string', 'max:150'],
-            // O telefone é obrigatório para o demandante desde o cadastro (contato da escola).
+            // O telefone é obrigatório para o demandante desde o cadastro (contato da comunidade/instituição).
             'telefone' => [$usuario->temPerfil(Perfil::Demandante) ? 'required' : 'nullable', ...$telefone],
             ...match (true) {
                 $usuario->temPerfil(Perfil::Estudante) && $usuario->estudante !== null => [

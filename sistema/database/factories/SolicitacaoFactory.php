@@ -24,7 +24,7 @@ class SolicitacaoFactory extends Factory
         return [
             'projeto_base_id' => ProjetoBase::factory(),
             'demandante_id' => Usuario::factory()->demandante(),
-            // A escola vem do demandante, como na abertura pelo formulário.
+            // A comunidade/instituição vem do demandante, como na abertura pelo formulário.
             'escola_instituicao_id' => fn (array $attributes) => Usuario::findOrFail($attributes['demandante_id'])->demandante->escola_instituicao_id,
             'titulo' => 'Demanda '.fake()->unique()->words(3, true),
             'descricao' => fake()->paragraph(),

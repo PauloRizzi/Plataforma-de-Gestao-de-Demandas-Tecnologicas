@@ -31,7 +31,7 @@ class SolicitacaoObserver
                 ! $pelaCoordenacao => 'Demanda aberta',
                 $solicitacao->demandante !== null => "Demanda aberta pela coordenação em nome de {$solicitacao->demandante->nome}",
                 $escola !== null => "Demanda aberta pela coordenação para {$escola} (sem demandante no sistema)",
-                default => 'Demanda aberta pela coordenação (sem escola e sem demandante no sistema)',
+                default => 'Demanda aberta pela coordenação (sem comunidade/instituição e sem demandante no sistema)',
             },
             'dados' => ['de' => null, 'para' => $solicitacao->status->value],
         ]);

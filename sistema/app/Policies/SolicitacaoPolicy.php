@@ -46,7 +46,7 @@ class SolicitacaoPolicy
     }
 
     /**
-     * Fase 9: coordenador e admin abrem a demanda em nome de uma escola (e, se houver, de um demandante).
+     * Fase 9: coordenador e admin abrem a demanda em nome de uma comunidade/instituição (e, se houver, de um demandante).
      */
     public function criarEmNomeDaEscola(Usuario $usuario): bool
     {

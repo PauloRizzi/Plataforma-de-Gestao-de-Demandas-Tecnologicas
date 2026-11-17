@@ -32,7 +32,7 @@
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                     @if (str_contains($message, '@edu.ufes.br'))
-                                        Se você representa uma escola ou instituição, <a href="{{ route('cadastro.demandante') }}">faça o cadastro de demandante</a>.
+                                        Se você representa uma comunidade ou instituição, <a href="{{ route('cadastro.demandante') }}">faça o cadastro de demandante</a>.
                                     @endif
                                 </div>
                             @enderror

@@ -1,6 +1,6 @@
 # Plataforma de Gestão de Demandas Tecnológicas (PGDT)
 
-Sistema web desenvolvido como Trabalho de Conclusão de Curso (TCC) em Sistemas de Informação, para organizar as demandas tecnológicas que escolas e instituições trazem para os projetos de extensão: do pedido do demandante até a entrega validada pela coordenação e aceita por quem pediu.
+Sistema web desenvolvido como Trabalho de Conclusão de Curso (TCC) em Sistemas de Informação, para organizar as demandas tecnológicas que comunidades e instituições trazem para os projetos de extensão: do pedido do demandante até a entrega validada pela coordenação e aceita por quem pediu.
 
 ## Funcionalidades
 

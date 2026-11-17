@@ -184,7 +184,7 @@ class DemandaPelaCoordenacaoTest extends TestCase
         $solicitacao = Solicitacao::where('titulo', 'Sem escola')->sole();
         $this->assertNull($solicitacao->escola_instituicao_id);
         $this->assertNull($solicitacao->demandante_id);
-        $this->assertSame('Demanda aberta pela coordenação (sem escola e sem demandante no sistema)', $solicitacao->historicos()->sole()->descricao);
+        $this->assertSame('Demanda aberta pela coordenação (sem comunidade/instituição e sem demandante no sistema)', $solicitacao->historicos()->sole()->descricao);
 
         $this->actingAs($this->coordenador)->get("/demandas/{$solicitacao->id}")->assertOk()->assertSee('Não informada');
         $this->actingAs($this->coordenador)->get('/demandas')->assertOk()->assertSee('Sem escola');
@@ -240,10 +240,10 @@ class DemandaPelaCoordenacaoTest extends TestCase
 
         $this->actingAs($this->coordenador)
             ->post("/subprojetos/{$subprojeto->id}/entregas/{$entrega->id}/aceite", ['decisao' => 'aceita'])
-            ->assertSessionHas('sucesso', 'Aceite registrado em nome da escola. Se for o caso, mude a demanda para "Concluída".');
+            ->assertSessionHas('sucesso', 'Aceite registrado em nome da comunidade/instituição. Se for o caso, mude a demanda para "Concluída".');
 
         $this->assertSame(SituacaoEntrega::Aceita, $entrega->fresh()->situacao);
-        $this->assertStringEndsWith('(registrado pela coordenação em nome da escola)', $solicitacao->historicos()->reorder()->latest('id')->firstOrFail()->descricao);
+        $this->assertStringEndsWith('(registrado pela coordenação em nome da comunidade/instituição)', $solicitacao->historicos()->reorder()->latest('id')->firstOrFail()->descricao);
 
         $this->actingAs($this->coordenador)
             ->patch("/demandas/{$solicitacao->id}/status", ['status' => StatusDemanda::EmValidacao->value])

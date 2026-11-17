@@ -35,7 +35,7 @@
                     <div class="mb-3">
                         <label for="descricao" class="form-label">Descrição <span class="text-danger">*</span></label>
                         <textarea id="descricao" name="descricao" rows="4" class="form-control @error('descricao') is-invalid @enderror" required maxlength="5000">{{ old('descricao', $projeto->descricao) }}</textarea>
-                        <div class="form-text">Aparece para as escolas na escolha do projeto e na página pública.</div>
+                        <div class="form-text">Aparece para as comunidades/instituições na escolha do projeto e na página pública.</div>
                         @error('descricao')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

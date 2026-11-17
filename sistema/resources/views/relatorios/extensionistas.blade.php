@@ -93,7 +93,7 @@
                             <dl class="small mb-0 relatorio-cartao">
                                 <dt>Projeto</dt>
                                 <dd>{{ $subprojeto->solicitacao->projetoBase->titulo }}</dd>
-                                <dt>Escola</dt>
+                                <dt>Comunidade/instituição</dt>
                                 <dd>{{ $subprojeto->solicitacao->escolaInstituicao?->nomeCompleto() ?? '—' }}</dd>
                                 <dt>Papel</dt>
                                 <dd>{{ $membro->papel->nome }}</dd>
@@ -110,7 +110,7 @@
                             <tr>
                                 <th>Sub-projeto</th>
                                 <th>Projeto de extensão</th>
-                                <th>Escola/instituição</th>
+                                <th>Comunidade/instituição</th>
                                 <th>Papel</th>
                                 <th class="text-nowrap">Início</th>
                                 <th class="text-nowrap">Fim</th>

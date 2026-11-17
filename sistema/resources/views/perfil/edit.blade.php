@@ -128,9 +128,9 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-7">
-                                        <label for="escola" class="form-label">Escola ou instituição</label>
+                                        <label for="escola" class="form-label">Comunidade ou instituição</label>
                                         <input id="escola" type="text" class="form-control" value="{{ $usuario->demandante->escolaInstituicao->nomeCompleto() }}" disabled>
-                                        <div class="form-text">Para trocar de escola, fale com a coordenação.</div>
+                                        <div class="form-text">Para trocar de comunidade/instituição, fale com a coordenação.</div>
                                     </div>
                                 </div>
                             @endif

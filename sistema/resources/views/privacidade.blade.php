@@ -44,7 +44,7 @@
                     <tbody>
                         <tr><td>Todos os usuários</td><td>Nome, e-mail, telefone (obrigatório só para o demandante) e senha. A senha é guardada de forma embaralhada (hash) e ninguém, nem o administrador, consegue lê-la.</td></tr>
                         <tr><td>Estudante</td><td>Matrícula e curso na UFES.</td></tr>
-                        <tr><td>Demandante</td><td>Escola ou instituição e cargo.</td></tr>
+                        <tr><td>Demandante</td><td>Comunidade ou instituição e cargo.</td></tr>
                         <tr><td>Coordenador</td><td>SIAPE e departamento (opcionais).</td></tr>
                         <tr><td>Uso da plataforma</td><td>Demandas e anexos, mensagens do chat, candidaturas, participação nas equipes, entregas e arquivos, decisões de validação e a linha do tempo de cada demanda (quem fez cada ação e quando).</td></tr>
                         <tr><td>Dados técnicos</td><td>Endereço IP e navegador usados na sessão e registros de erro do sistema, para segurança e correção de problemas.</td></tr>
@@ -54,8 +54,8 @@
 
             <h2 class="h5 mt-4">3. Para que usamos os dados</h2>
             <ul>
-                <li>Criar e aprovar a sua conta e confirmar que você é estudante, servidor ou representante de uma escola ou instituição.</li>
-                <li>Receber, analisar e acompanhar as demandas das escolas e instituições.</li>
+                <li>Criar e aprovar a sua conta e confirmar que você é estudante, servidor ou representante de uma comunidade ou instituição.</li>
+                <li>Receber, analisar e acompanhar as demandas das comunidades e instituições.</li>
                 <li>Formar as equipes de estudantes, acompanhar as entregas e registrar a validação das soluções.</li>
                 <li>Enviar avisos por e-mail sobre as demandas em que você participa.</li>
                 <li>Gerar o relatório de participação dos extensionistas, com a carga horária, para os registros do projeto de extensão.</li>

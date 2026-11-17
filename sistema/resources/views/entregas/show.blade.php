@@ -69,8 +69,8 @@
                             @if ($podeValidar)
                                 Confira se a entrega atende ao escopo do sub-projeto. Aprovada, ela segue para o demandante aceitar; devolvida, volta para a equipe com o seu comentário.
                             @elseif ($emNomeDoDemandante && ! $solicitacao->demandante)
-                                {{-- Fase 9: demanda sem demandante no sistema; a coordenação registra o aceite da escola. --}}
-                                Esta demanda não tem demandante no sistema. Confirme com {{ $solicitacao->escolaInstituicao?->nome ?? 'quem fez o pedido' }} (reunião, telefone, e-mail) e registre aqui a decisão da escola. A linha do tempo mostra que foi a coordenação que registrou.
+                                {{-- Fase 9: demanda sem demandante no sistema; a coordenação registra o aceite da comunidade/instituição. --}}
+                                Esta demanda não tem demandante no sistema. Confirme com {{ $solicitacao->escolaInstituicao?->nome ?? 'quem fez o pedido' }} (reunião, telefone, e-mail) e registre aqui a decisão da comunidade/instituição. A linha do tempo mostra que foi a coordenação que registrou.
                             @elseif ($emNomeDoDemandante)
                                 Aguardando o aceite de {{ $solicitacao->demandante->nome }}. Se o demandante já confirmou por outro meio (reunião, telefone, e-mail), registre a decisão em nome dele. A linha do tempo mostra que foi a coordenação que registrou.
                             @else

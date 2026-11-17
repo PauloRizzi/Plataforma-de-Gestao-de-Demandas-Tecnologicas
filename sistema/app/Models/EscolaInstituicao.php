@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Escola digitada pelo demandante no cadastro nasce com `ativo = false`
+ * Comunidade/instituição digitada pelo demandante no cadastro nasce com `ativo = false`
  * e é conferida e ativada pelo admin junto com a aprovação do cadastro.
  */
 #[Fillable(['nome', 'tipo', 'codigo_inep', 'cidade', 'uf', 'telefone', 'email', 'ativo'])]

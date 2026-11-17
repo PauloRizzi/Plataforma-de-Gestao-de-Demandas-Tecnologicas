@@ -44,7 +44,7 @@
                     <tr>
                         <th>Sub-projeto</th>
                         <th>Projeto de extensão</th>
-                        <th>Escola/instituição</th>
+                        <th>Comunidade/instituição</th>
                         <th>Papel</th>
                         <th>Início</th>
                         <th>Fim</th>

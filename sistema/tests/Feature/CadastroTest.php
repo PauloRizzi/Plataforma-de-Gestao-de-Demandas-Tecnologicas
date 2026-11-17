@@ -21,7 +21,7 @@ class CadastroTest extends TestCase
         $this->get('/cadastro')
             ->assertOk()
             ->assertSee('Sou estudante da UFES')
-            ->assertSee('Represento uma escola ou instituição');
+            ->assertSee('Represento uma comunidade ou instituição');
     }
 
     public function test_estudante_se_cadastra_como_pendente_e_recebe_confirmacao_de_email(): void

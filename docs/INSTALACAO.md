@@ -89,7 +89,7 @@ Para mexer nas telas, deixar também `npm run dev` rodando em outro terminal: as
 
 ## 6. Dados de demonstração (apresentação e testes com usuários)
 
-O `DemonstracaoSeeder` cria 4 escolas e instituições fictícias, 2 coordenadores, 5 demandantes, 7 estudantes, 4 projetos de extensão e 11 demandas, uma em cada etapa do ciclo (com sub-projetos, equipes, candidaturas, entregas, validações e chat). Também deixa um estudante e um demandante aguardando a aprovação do admin. Os e-mails terminam em `@demo.pgdt.example` e não recebem mensagens; nenhum aviso é enviado durante a carga. O seeder não roda em produção e não carrega duas vezes no mesmo banco.
+O `DemonstracaoSeeder` cria 4 comunidades e instituições fictícias, 2 coordenadores, 5 demandantes, 7 estudantes, 4 projetos de extensão e 11 demandas, uma em cada etapa do ciclo (com sub-projetos, equipes, candidaturas, entregas, validações e chat). Também deixa um estudante e um demandante aguardando a aprovação do admin. Os e-mails terminam em `@demo.pgdt.example` e não recebem mensagens; nenhum aviso é enviado durante a carga. O seeder não roda em produção e não carrega duas vezes no mesmo banco.
 
 Para não misturar com os dados do banco `pgdt`, usar um banco separado, `pgdt_demo`:
 

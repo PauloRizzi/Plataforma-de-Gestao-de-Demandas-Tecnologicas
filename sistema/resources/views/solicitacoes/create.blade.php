@@ -12,10 +12,10 @@
             <h1 class="h3 mb-1">Nova demanda</h1>
             <p class="text-muted mb-3">
                 @if ($emNomeDaEscola)
-                    Registre uma demanda recebida de uma escola ou instituição (por ofício, telefone ou reunião).
+                    Registre uma demanda recebida de uma comunidade ou instituição (por ofício, telefone ou reunião).
                     Ela entra na fila como "Cadastrada" e segue a triagem normal.
                 @else
-                    Descreva o apoio tecnológico de que {{ $escola?->nomeCompleto() ?? 'sua escola ou instituição' }} precisa.
+                    Descreva o apoio tecnológico de que {{ $escola?->nomeCompleto() ?? 'sua comunidade ou instituição' }} precisa.
                     A coordenação do projeto analisa a demanda e você acompanha o andamento em "Minhas demandas".
                 @endif
             </p>
@@ -54,18 +54,18 @@
                         @enderror
                     </div>
 
-                    {{-- Fase 9: a coordenação e o admin abrem a demanda em nome de uma escola e, se houver, de um demandante. --}}
+                    {{-- Fase 9: a coordenação e o admin abrem a demanda em nome de uma comunidade/instituição e, se houver, de um demandante. --}}
                     @if ($emNomeDaEscola)
                         <div class="row g-3 mb-3" data-escolha-demandante>
                             <div class="col-md-6">
-                                <label for="escola_instituicao_id" class="form-label">Escola ou instituição <span class="text-muted">(opcional)</span></label>
+                                <label for="escola_instituicao_id" class="form-label">Comunidade ou instituição <span class="text-muted">(opcional)</span></label>
                                 <select id="escola_instituicao_id" name="escola_instituicao_id" class="form-select @error('escola_instituicao_id') is-invalid @enderror">
-                                    <option value="">Sem escola ou instituição</option>
+                                    <option value="">Sem comunidade ou instituição</option>
                                     @foreach ($escolas as $item)
                                         <option value="{{ $item->id }}" @selected((string) old('escola_instituicao_id') === (string) $item->id)>{{ $item->nomeCompleto() }}</option>
                                     @endforeach
                                 </select>
-                                <div class="form-text">Ao escolher um demandante, a escola dele é preenchida.</div>
+                                <div class="form-text">Ao escolher um demandante, a comunidade/instituição dele é preenchida.</div>
                                 @error('escola_instituicao_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -79,8 +79,8 @@
                                     @endforeach
                                 </select>
                                 <div class="form-text" data-ajuda-demandante>
-                                    Quem a escola cadastrou no sistema. O demandante recebe um aviso, acompanha a demanda e aceita a solução.
-                                    Sem demandante, o contato com a escola e o aceite ficam com a coordenação.
+                                    Quem a comunidade/instituição cadastrou no sistema. O demandante recebe um aviso, acompanha a demanda e aceita a solução.
+                                    Sem demandante, o contato com a comunidade/instituição e o aceite ficam com a coordenação.
                                 </div>
                                 @error('demandante_id')
                                     <div class="invalid-feedback">{{ $message }}</div>

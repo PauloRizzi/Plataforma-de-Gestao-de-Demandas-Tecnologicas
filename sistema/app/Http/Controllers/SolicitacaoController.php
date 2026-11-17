@@ -99,7 +99,7 @@ class SolicitacaoController extends Controller
     }
 
     /**
-     * Fase 9: demandantes que a coordenação pode escolher ao abrir a demanda em nome da escola.
+     * Fase 9: demandantes que a coordenação pode escolher ao abrir a demanda em nome da comunidade/instituição.
      *
      * @return Builder<Usuario>
      */
@@ -130,7 +130,7 @@ class SolicitacaoController extends Controller
 
         $dados = $request->validate([
             'projeto_base_id' => ['required', Rule::exists('projetos_base', 'id')->where('ativo', true)],
-            // Fase 9: a coordenação pode informar a escola e, se ela tiver alguém cadastrado, o demandante que acompanha.
+            // Fase 9: a coordenação pode informar a comunidade/instituição e, se ela tiver alguém cadastrado, o demandante que acompanha.
             'escola_instituicao_id' => $emNomeDaEscola
                 ? ['nullable', Rule::exists('escolas_instituicoes', 'id')->where('ativo', true)]
                 : ['prohibited'],
@@ -148,8 +148,8 @@ class SolicitacaoController extends Controller
             'anexos.*' => ['file', 'mimes:'.implode(',', Anexo::EXTENSOES), 'max:'.Anexo::tamanhoMaximoMb() * 1024],
         ], [
             'projeto_base_id.exists' => 'Escolha um projeto de extensão ativo.',
-            'escola_instituicao_id.exists' => 'Escolha uma escola ou instituição ativa.',
-            'demandante_id.exists' => 'Escolha um demandante da escola selecionada, ou deixe sem demandante.',
+            'escola_instituicao_id.exists' => 'Escolha uma comunidade ou instituição ativa.',
+            'demandante_id.exists' => 'Escolha um demandante da comunidade/instituição selecionada, ou deixe sem demandante.',
             'anexos.max' => 'Envie no máximo :max arquivos.',
             'anexos.*.mimes' => 'O :attribute não é PDF, JPG ou PNG.',
             'anexos.*.max' => 'O :attribute tem mais de '.Anexo::tamanhoMaximoMb().' MB.',
@@ -157,7 +157,7 @@ class SolicitacaoController extends Controller
         ], [
             ...$nomesDosArquivos,
             'projeto_base_id' => 'projeto de extensão',
-            'escola_instituicao_id' => 'escola ou instituição',
+            'escola_instituicao_id' => 'comunidade ou instituição',
             'demandante_id' => 'demandante',
             'titulo' => 'título',
             'descricao' => 'descrição',
@@ -178,12 +178,12 @@ class SolicitacaoController extends Controller
                 throw ValidationException::withMessages(['demandante_id' => 'Este demandante não está ativo. Escolha outro ou deixe sem demandante.']);
             }
 
-            // Sem escola informada, a demanda fica com a escola do demandante escolhido (ou sem escola).
+            // Sem comunidade/instituição informada, a demanda fica com a comunidade/instituição do demandante escolhido (ou sem comunidade/instituição).
             $escolaId = $dados['escola_instituicao_id'] ?? $demandante?->demandante->escola_instituicao_id;
         } else {
             $escolaId = $usuario->demandante?->escola_instituicao_id;
             $demandanteId = $usuario->id;
-            abort_if($escolaId === null, 403, 'Seu cadastro não tem escola ou instituição vinculada. Procure a coordenação do projeto.');
+            abort_if($escolaId === null, 403, 'Seu cadastro não tem comunidade ou instituição vinculada. Procure a coordenação do projeto.');
         }
 
         $arquivos = $request->file('anexos', []);

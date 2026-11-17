@@ -76,7 +76,7 @@ class Solicitacao extends Model
     }
 
     /**
-     * Fase 9: demanda registrada pela coordenação ou pelo admin, em nome do demandante ou só da escola.
+     * Fase 9: demanda registrada pela coordenação ou pelo admin, em nome do demandante ou só da comunidade/instituição.
      */
     public function cadastradaPelaCoordenacao(): bool
     {

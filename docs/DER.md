@@ -48,7 +48,7 @@ Leitura das cardinalidades: `||` exatamente um · `|o` zero ou um · `o{` zero o
 
 - Um **usuário** tem um perfil e, conforme o perfil, os dados de estudante, demandante ou coordenador.
 - Um **projeto de extensão** tem um coordenador e vários estudantes vinculados, e recebe várias demandas.
-- Uma **demanda** pode não ter demandante nem escola, quando a coordenação a abre em nome de uma escola sem ninguém cadastrado.
+- Uma **demanda** pode não ter demandante nem comunidade/instituição, quando a coordenação a abre em nome de uma comunidade/instituição sem ninguém cadastrado.
 - Cada demanda vira **no máximo um sub-projeto**, que tem a equipe e as entregas.
 - Cada **entrega** passa por validações: técnica (coordenação) e aceite (demandante).
 
@@ -388,7 +388,7 @@ erDiagram
 | cidade | varchar(100) | obrigatório |
 | uf | char(2) | obrigatório |
 | telefone, email | | opcionais |
-| ativo | boolean | padrão `true`; a escola digitada no cadastro do demandante nasce `false` e é ativada pelo admin na conferência |
+| ativo | boolean | padrão `true`; a comunidade/instituição digitada no cadastro do demandante nasce `false` e é ativada pelo admin na conferência |
 
 **`cursos`** — `id`, `nome` (varchar(150), único), `ativo`. Seeder com os 16 cursos do campus de Alegre.
 
@@ -464,7 +464,7 @@ Só os vinculados entram nas equipes dos sub-projetos do projeto, pela coordena�
 | projeto_base_id | FK `projetos_base` | obrigatório |
 | demandante_id | FK `usuarios` | perfil `demandante`; nulo quando a coordenação abre a demanda sem demandante (Fase 9) |
 | cadastrada_por | FK `usuarios` | quem registrou: o demandante, o coordenador ou o admin (Fase 9) |
-| escola_instituicao_id | FK `escolas_instituicoes` | copiado do demandante na abertura, para os relatórios não mudarem se ele trocar de escola; escolhida pela coordenação quando ela abre a demanda, ou nulo se ela não informar (Fase 9) |
+| escola_instituicao_id | FK `escolas_instituicoes` | copiado do demandante na abertura, para os relatórios não mudarem se ele trocar de comunidade/instituição; escolhida pela coordenação quando ela abre a demanda, ou nulo se ela não informar (Fase 9) |
 | titulo | varchar(100) | obrigatório |
 | descricao | text | obrigatório |
 | justificativa | text | obrigatório |
@@ -606,7 +606,7 @@ O **relatório por extensionista (RF15)** e o **dashboard (RF18)** não têm tab
 | Entraram `complexidade`, `motivo_status`, `triado_por` e os status `em_validacao`, `aguardando_ajustes`, `recusada`, `cancelada` em `solicitacoes` | Triagem completa (RF07) e ciclo de status decidido na Fase 0 |
 | Tabelas novas `subprojetos`, `candidaturas`, `papeis_equipe`, `membros_equipe`, `entregas`, `entrega_arquivos`, `validacoes` | RF09 a RF13, que o DER original não cobria |
 | Tabelas novas `convites`, `cursos`, `parametros`, `estudantes_projeto_base` | RF16, RF01, RF20 e RF22 |
-| `solicitacoes.escola_instituicao_id` | Os relatórios continuam corretos se o demandante trocar de escola |
+| `solicitacoes.escola_instituicao_id` | Os relatórios continuam corretos se o demandante trocar de comunidade/instituição |
 | `subprojetos` sem `projeto_base_id` próprio | O valor vem da solicitação; evita inconsistência |
 | `membros_equipe.removido_em` | Remover alguém da equipe não apaga o histórico de participação |
 | `projetos_base.publico`, `ativo` e `imagem` | Página pública (RF14), projetos encerrados e imagem de divulgação |
@@ -614,7 +614,7 @@ O **relatório por extensionista (RF15)** e o **dashboard (RF18)** não têm tab
 
 ## 5. Pontos confirmados pelo autor (2026-10-18)
 
-1. **Escola/instituição no cadastro do demandante:** o demandante escolhe a escola em uma lista; se não encontrar, digita uma nova, que o admin confere junto com a aprovação do cadastro.
+1. **Comunidade/instituição no cadastro do demandante:** o demandante escolhe a comunidade/instituição em uma lista; se não encontrar, digita uma nova, que o admin confere junto com a aprovação do cadastro.
 2. **Membro removido no relatório (RF15):** quem foi removido da equipe **não** aparece no relatório daquele sub-projeto.
 3. **Papéis da equipe:** começar com Membro Desenvolvedor, Responsável Técnico e Apoio de Campo; o admin cadastra outros (depois entrou "Outros", na Fase 9).
 4. **Página pública (RF14):** todo Projeto Base ativo aparece por padrão; o coordenador pode ocultá-lo desmarcando `publico`.

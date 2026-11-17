@@ -5,7 +5,7 @@ Base: TCC1 de Paulo Henrique Bressanini Rizzi e o documento "Funcionalidades do 
 
 **Stack:** PHP + Laravel (MVC) · MySQL · Blade + Bootstrap + JavaScript · Apache/XAMPP (local) · Git + GitHub
 
-**Perfis:** Administrador · Coordenador projeto de extensão · Demandante (escola/instituição) · Estudante Extensionista
+**Perfis:** Administrador · Coordenador projeto de extensão · Demandante (comunidade/instituição) · Estudante Extensionista
 
 **Termos:**
 - **Projeto de extensão (Projeto Base):** a linha de extensão cadastrada pelo coordenador (RF05).
@@ -123,18 +123,18 @@ Para ligar o banco: abrir o **XAMPP Control Panel** (`C:\xampp\xampp-control.exe
 
 Regras para evitar erro do usuário:
 - **Login único** para todos: o perfil vem da conta, o usuário nunca escolhe o perfil ao entrar.
-- **"Criar conta" abre uma tela de escolha** com dois cartões grandes e textos claros: "Sou estudante da UFES" e "Represento uma escola ou instituição". Não existe um campo "perfil" dentro do formulário.
+- **"Criar conta" abre uma tela de escolha** com dois cartões grandes e textos claros: "Sou estudante da UFES" e "Represento uma comunidade ou instituição". Não existe um campo "perfil" dentro do formulário.
 - **Cada formulário mostra só os campos do seu perfil** e tem um título fixo ("Cadastro de Estudante") com o link "Não é o seu caso? Trocar tipo de cadastro".
 - **O e-mail confirma a escolha:** e-mail institucional da UFES no formulário de demandante gera o aviso "Parece que você é da UFES. Quer se cadastrar como estudante?"; e-mail de fora da UFES no formulário de estudante é bloqueado com um link para o cadastro de demandante.
-- **Links diretos para divulgação:** as escolas recebem o link `/cadastro/demandante`; os estudantes, o link `/cadastro/estudante`.
+- **Links diretos para divulgação:** as comunidades/instituições recebem o link `/cadastro/demandante`; os estudantes, o link `/cadastro/estudante`.
 - **Mesmo modelo de dados:** uma única tabela `usuarios` com `perfil`; os campos específicos ficam nas tabelas de cada perfil.
 
 ### Entregáveis
 - [x] Layout base responsivo (menu por perfil, tela de login).
-- [x] Tabelas (ver `docs/DER.md`): `usuarios` (perfil, status, telefone), `estudantes` (matrícula, curso), `demandantes` (escola, cargo), `coordenadores`, `escolas_instituicoes`, `cursos`, `convites`.
+- [x] Tabelas (ver `docs/DER.md`): `usuarios` (perfil, status, telefone), `estudantes` (matrícula, curso), `demandantes` (comunidade/instituição, cargo), `coordenadores`, `escolas_instituicoes`, `cursos`, `convites`.
 - [x] Tela "Criar conta" com a escolha do tipo de cadastro (Estudante / Demandante).
 - [x] RF01: formulário do estudante com validação de domínio; perfil Estudante atribuído automaticamente; status `Pendente`.
-- [x] RF02: formulário do demandante (escola, cargo, telefone com máscara); status `Pendente`.
+- [x] RF02: formulário do demandante (comunidade/instituição, cargo, telefone com máscara); status `Pendente`.
 - [x] Cadastro do Coordenador projeto de extensão por convite do admin (e-mail com link de uso único e prazo de validade); a conta já nasce `Ativo`.
 - [x] RF03: login, logout, "esqueci minha senha" com token por e-mail e redefinição.
 - [x] RF04: painel do admin com filtros (nome, e-mail, perfil, status). O admin aprova os usuários, altera o status do usuário (`Ativo`, `Inativo`, `Pendente`, `Rejeitado`) e troca o papel/perfil dos usuários.
@@ -151,7 +151,7 @@ Regras para evitar erro do usuário:
 - **E-mails:** confirmação de e-mail (estudante), aprovação, rejeição com motivo, convite e recuperação de senha, em pt-BR. Em ambiente local o `MAIL_MAILER=log` grava os e-mails em `storage/logs/laravel.log`.
 - **Seeders:** `CursoSeeder` (16 cursos do campus de Alegre) e `AdminSeeder` (usa `ADMIN_NOME`, `ADMIN_EMAIL` e `ADMIN_PASSWORD` do `.env`; sem senha, gera uma aleatória e mostra no terminal).
 - **Testes:** 34 testes de feature (`CadastroTest`, `LoginTest`, `AdminUsuariosTest`, `ConviteTest`) passando no SQLite em memória.
-- **Teste manual no navegador:** cadastro de demandante com escola nova, aviso de e-mail da UFES, máscara de telefone, tela "Cadastro em análise", login do admin, aprovação com e-mail registrado no log e layout no celular.
+- **Teste manual no navegador:** cadastro de demandante com comunidade/instituição nova, aviso de e-mail da UFES, máscara de telefone, tela "Cadastro em análise", login do admin, aprovação com e-mail registrado no log e layout no celular.
 
 **Critério de conclusão:** os 4 perfis conseguem se cadastrar ou ser criados, fazer login e ver apenas o seu menu; o admin aprova um estudante e um demandante pendentes.
 
@@ -201,7 +201,7 @@ Regras para evitar erro do usuário:
 ### Como foi implementado (2026-10-21)
 - **Código:** branch `feature/fase3-demandas`. Migration `2026_10_21_000002_create_solicitacoes_tables`; enums `StatusDemanda` e `Complexidade`; models `Solicitacao` e `Anexo`; `SolicitacaoPolicy`; `SolicitacaoController`.
 - **Rotas:** `/demandas` (lista: "Minhas demandas" para o demandante, fila para coordenador e admin), `/demandas/create`, `/demandas/{id}` (detalhes), `PATCH /demandas/{id}/triagem`, `PATCH /demandas/{id}/status` e `/demandas/{id}/anexos/{anexo}` (download).
-- **Abertura (RF06):** o demandante escolhe um Projeto Base ativo (a descrição do projeto aparece ao escolher), com contador no título. A escola é copiada do cadastro do demandante. Anexos são opcionais: até 5 arquivos PDF/JPG/PNG de até 5 MB, conferidos no navegador (tipo, tamanho, quantidade, repetidos) e de novo no servidor; os erros citam o nome do arquivo.
+- **Abertura (RF06):** o demandante escolhe um Projeto Base ativo (a descrição do projeto aparece ao escolher), com contador no título. A comunidade/instituição é copiada do cadastro do demandante. Anexos são opcionais: até 5 arquivos PDF/JPG/PNG de até 5 MB, conferidos no navegador (tipo, tamanho, quantidade, repetidos) e de novo no servidor; os erros citam o nome do arquivo.
 - **Arquivos:** gravados no disco `local` (`storage/app/private/solicitacoes/{id}`), fora da pasta pública, com nome aleatório. O download passa pela policy (só quem vê a demanda) e devolve o nome original. Se a gravação da demanda falhar, os arquivos já salvos são apagados.
 - **Fila (RF07):** abre nas demandas `Cadastrada`; filtros por título, status, prioridade e projeto. Ordem: prioridade (pela `ordem` do cadastro de apoio; sem prioridade por último) e depois a mais antiga.
 - **Triagem:** categoria, prioridade e complexidade (`Baixa`, `Média`, `Alta`), todas obrigatórias; grava quem classificou e quando. Pode ser revista enquanto a demanda está `Cadastrada`, `Em Análise` ou `Priorizada`. Salvar a triagem não muda o status.
@@ -304,7 +304,7 @@ Regras para evitar erro do usuário:
   - O nome "homologar" foi trocado por "aceite" (pedido do autor em 2026-10-21), porque os projetos de extensão não são só de programação.
 - [x] Depois do aceite, o coordenador ou o admin muda a demanda para `Concluída`; depois de uma devolução ou pendência, muda para `Aguardando Ajustes` e a demanda volta para a equipe. As mudanças são manuais, com sugestão na tela.
 - [x] Tela de mudança de status (coordenador e admin) com confirmação e registro no histórico.
-- [x] RF15: relatório de demandas executadas por extensionista. Para cada sub-projeto de que o estudante participou: título, projeto de extensão, escola/instituição, papel do estudante, **data de início**, **data de fim** e **carga horária estimada** do sub-projeto, com o total de horas no final.
+- [x] RF15: relatório de demandas executadas por extensionista. Para cada sub-projeto de que o estudante participou: título, projeto de extensão, comunidade/instituição, papel do estudante, **data de início**, **data de fim** e **carga horária estimada** do sub-projeto, com o total de horas no final.
   - Os valores vêm do sub-projeto (RF09); se o Admin ou o coordenador corrigir a carga horária, o relatório já sai com o valor novo.
   - Filtros: estudante, período, Projeto Base e status (por padrão, só demandas `Concluída`).
   - Exportação em PDF (ex.: `barryvdh/laravel-dompdf`).
@@ -315,7 +315,7 @@ Regras para evitar erro do usuário:
 - **RF12:** na tela do sub-projeto, o card "Entregas" lista as entregas numeradas e tem o botão "Nova entrega" para os membros da equipe ("Registrar entrega da equipe" para o coordenador e o admin). O formulário (`/subprojetos/{id}/entregas/criar`) muda conforme o tipo: link/repositório (endereço `http`/`https` obrigatório), relatório técnico (PDF, DOCX ou Excel) ou arquivos/fotos (PDF, DOCX, Excel, JPG, PNG ou ZIP), até 5 arquivos de 20 MB, com arrastar e soltar. Os arquivos ficam fora da pasta pública e só são baixados por quem vê a entrega. O formulário mostra os comentários das entregas devolvidas ou com pendência.
 - **RF13:** a tela da entrega mostra o conteúdo, os arquivos e as decisões. O coordenador (ou o admin) escolhe "Aprovar Tecnicamente" ou "Devolver para Ajustes"; depois o demandante escolhe "Aceitar Solução" ou "Reportar Pendência". O admin e o coordenador também veem esses dois botões, para registrar a decisão quando o demandante confirma por outro meio (reunião, telefone, e-mail); nesse caso a linha do tempo mostra "(registrado pela coordenação em nome do demandante)". Devolver e reportar pendência exigem comentário. Cada envio e cada decisão vão para a linha do tempo da demanda, com o comentário.
 - **Status:** a caixa de status passa a oferecer "Em Validação" (com uma entrega enviada), "Aguardando Ajustes", "Em Desenvolvimento" e "Concluída" (só com a solução aceita). A tela sugere o próximo status pela última entrega ("Entrega recebida. Mudar para Em Validação?") e já deixa essa opção escolhida; a mudança continua manual e com confirmação.
-- **RF15:** menu "Relatório" (admin e coordenador) e "Meu relatório" (estudante), em `/relatorios/extensionistas`. Uma seção por estudante com título, projeto de extensão, escola/instituição, papel, início, fim e carga horária estimada de cada sub-projeto, e o total. Filtros de estudante, período (sub-projetos em andamento entre as datas), Projeto Base e status (padrão: "Concluída"). "Exportar PDF" gera o mesmo relatório em A4 paisagem.
+- **RF15:** menu "Relatório" (admin e coordenador) e "Meu relatório" (estudante), em `/relatorios/extensionistas`. Uma seção por estudante com título, projeto de extensão, comunidade/instituição, papel, início, fim e carga horária estimada de cada sub-projeto, e o total. Filtros de estudante, período (sub-projetos em andamento entre as datas), Projeto Base e status (padrão: "Concluída"). "Exportar PDF" gera o mesmo relatório em A4 paisagem.
 - **Painel:** admin e coordenador veem as entregas para validar; o demandante vê um aviso quando há entrega aguardando o seu aceite; o estudante tem o atalho para o relatório. A lista de sub-projetos marca os que têm entrega para validar.
 - **Testes:** 38 testes novos (`EntregaTest`, `ValidacaoTest`, `RelatorioTest` e `CicloCompletoTest`, que percorre o critério de conclusão de ponta a ponta); 165 no total, todos passando. Migrations `2026_10_21_000005_create_entregas_tables` e `2026_10_27_000001_add_numero_to_entregas_table` rodadas no MySQL local.
 - **Teste no navegador (2026-10-27, feito pelo autor):** a demanda de teste foi para "Em Desenvolvimento"; a estudante enviou a entrega; o admin aprovou tecnicamente e registrou o aceite em nome do demandante; a demanda foi concluída e o relatório da estudante foi conferido. Ajuste durante o teste: as caixas de confirmação do navegador viraram modal do Bootstrap.
@@ -339,7 +339,7 @@ Regras para evitar erro do usuário:
 
 Itens do TCC que não estão no documento de RF, mas que agregam valor. O autor escolheu em 2026-10-27 os itens 1, 2 e 4; o log de auditoria fica como trabalho futuro.
 
-- [x] Dashboard gerencial (demandas por status, categoria, escola e tempo médio de atendimento).
+- [x] Dashboard gerencial (demandas por status, categoria, comunidade/instituição e tempo médio de atendimento).
 - [x] Notificações por e-mail (cadastro aprovado, mudança de status, nova mensagem, candidatura aprovada, entrega devolvida).
 - [x] Parâmetros gerais configuráveis pelo admin.
 
@@ -353,7 +353,7 @@ Itens do TCC que não estão no documento de RF, mas que agregam valor. O autor 
   - candidatura nova → coordenação; aprovada ou recusada → estudante;
   - entrega enviada → coordenação; aprovada tecnicamente → demandante (chamado para o aceite) e equipe; devolvida → equipe; aceita ou com pendência → equipe e coordenação (com o comentário).
   - Quem fez a ação não recebe o aviso, e contas inativas não recebem nada. Os e-mails vão pela fila depois de a ação ser gravada (`php artisan queue:work`, ver `docs/INSTALACAO.md`).
-- **Dashboard:** menu "Dashboard" (admin e coordenador), em `/dashboard`. Totais (demandas, em triagem, em execução, concluídas), tempo médio de atendimento (da abertura até "Concluída") e tempo médio da primeira resposta (da abertura até sair de "Cadastrada"), calculados pela linha do tempo; barras por status, categoria, escola ou instituição (as 10 com mais demandas e "Outras") e projeto de extensão. Filtros: período de abertura e Projeto Base. O coordenador vê só as demandas que já vê na lista.
+- **Dashboard:** menu "Dashboard" (admin e coordenador), em `/dashboard`. Totais (demandas, em triagem, em execução, concluídas), tempo médio de atendimento (da abertura até "Concluída") e tempo médio da primeira resposta (da abertura até sair de "Cadastrada"), calculados pela linha do tempo; barras por status, categoria, comunidade ou instituição (as 10 com mais demandas e "Outras") e projeto de extensão. Filtros: período de abertura e Projeto Base. O coordenador vê só as demandas que já vê na lista.
 - **Testes:** 22 testes novos (`ParametroTest`, `NotificacaoTest` e `DashboardTest`); 187 no total, todos passando. Migration rodada no MySQL local.
 
 ### Decisões de implementação (aprovadas pelo autor em 2026-10-27)
@@ -395,7 +395,7 @@ Prontos: revisão de segurança, responsividade, dados de demonstração e rotei
 - [x] Revisão de segurança: CSRF, hash de senhas, validação de uploads, autorização em todas as rotas, LGPD (dados mínimos necessários).
 - [x] Testes de responsividade (celular, tablet, desktop) — RNF02.
 - [x] Dados de demonstração (seeders) para a apresentação.
-- [ ] Testes com usuários reais (coordenador, demandante de escola ou instituição, estudantes) e registro dos resultados para o TCC2.
+- [ ] Testes com usuários reais (coordenador, demandante de comunidade ou instituição, estudantes) e registro dos resultados para o TCC2.
 - [ ] Correções a partir do feedback.
 - [ ] Definir o ambiente de produção e fazer o deploy.
 
@@ -430,9 +430,9 @@ Revisados as rotas, os middlewares, as policies, todos os controllers, os upload
 
 ### Dados de demonstração (2026-10-27)
 - **Seeder:** `DemonstracaoSeeder`, fora do `DatabaseSeeder`. Uso: `php artisan db:seed --class=DemonstracaoSeeder`; passo a passo em `docs/INSTALACAO.md` (seção 6). Não roda em produção, não carrega duas vezes no mesmo banco e não envia e-mails.
-- **Cenário (fictício):** 4 escolas e instituições de Alegre, Guaçuí e Jerônimo Monteiro; 2 coordenadores; 5 demandantes; 7 estudantes; 4 projetos de extensão ("Robótica Educacional nas Escolas", "Conecta Escola: redes e infraestrutura", "Presença Digital das Escolas", "Formação Tecnológica para Educadores") além do "Demandas Gerais".
-- **11 demandas, uma em cada etapa:** 2 cadastradas (uma com ofício em PDF), em análise com dúvidas no chat, priorizada com o sub-projeto na vitrine e 2 candidaturas para avaliar, em desenvolvimento com entrega aguardando a validação técnica, em validação aguardando o aceite (depois de uma entrega devolvida), aguardando ajustes (pendência reportada pela escola), 2 concluídas (uma com aceite registrado pela coordenação), recusada e cancelada pela escola, com os motivos.
-- **Para a fila do admin:** um estudante e um demandante (com escola digitada no cadastro) aguardando aprovação.
+- **Cenário (fictício):** 4 comunidades e instituições de Alegre, Guaçuí e Jerônimo Monteiro; 2 coordenadores; 5 demandantes; 7 estudantes; 4 projetos de extensão ("Robótica Educacional nas Comunidades/instituições", "Conecta Comunidade/instituição: redes e infraestrutura", "Presença Digital das Comunidades/instituições", "Formação Tecnológica para Educadores") além do "Demandas Gerais".
+- **11 demandas, uma em cada etapa:** 2 cadastradas (uma com ofício em PDF), em análise com dúvidas no chat, priorizada com o sub-projeto na vitrine e 2 candidaturas para avaliar, em desenvolvimento com entrega aguardando a validação técnica, em validação aguardando o aceite (depois de uma entrega devolvida), aguardando ajustes (pendência reportada pela comunidade/instituição), 2 concluídas (uma com aceite registrado pela coordenação), recusada e cancelada pela comunidade/instituição, com os motivos.
+- **Para a fila do admin:** um estudante e um demandante (com comunidade/instituição digitada no cadastro) aguardando aprovação.
 - **Coerência:** cada demanda percorre o fluxo real, com as datas e o autor de cada passo, então a linha do tempo, o dashboard (tempos médios) e o relatório dos extensionistas mostram números reais. E-mails em `@demo.pgdt.example`, que não recebem mensagens. A senha das contas vem de `DEMO_PASSWORD` no `.env` (ou é gerada e mostrada no terminal).
 - **Testes:** `DemonstracaoSeederTest` (5): todas as etapas e situações de entrega presentes, linha do tempo em ordem e com autor, telas de cada perfil abrindo, sem duplicar e sem rodar em produção. 201 testes no total, todos passando.
 - **Banco local:** carregado no banco separado `pgdt_demo` (o `pgdt` com os dados de teste das fases não foi alterado); servidor da demonstração na porta 8002 (`php artisan serve --port=8002` com `DB_DATABASE=pgdt_demo`). Os arquivos de demonstração ficam na mesma pasta `storage/app/private` do banco `pgdt`, com nomes aleatórios.
@@ -468,9 +468,9 @@ Os itens 1, 6, 7 e 9 são do sistema e ficam para a sessão da Fase 9 decidir; o
 **Roteiro corrigido (2026-10-27), itens 2 a 5:** a E1 do Bruno passou a ser a inscrição no "Cardápio da merenda" (os vínculos da demonstração não mudaram); a D2 pede uma informação nova no chat em vez de responder à pergunta; a A5 espera 11 estudantes; a preparação usa o banco próprio `pgdt_teste` (criado uma vez, recriado antes de cada participante, com o `DemonstracaoSeeder` e o `DemonstracaoFase9Seeder`, porta 8003), sem tocar no `pgdt` e no `pgdt_demo`. Falta o item 8 (datas da demonstração), que mexe no seeder. Não foi conferido: o uso no celular com as telas da Fase 9 e a percepção de usuários reais.
 
 ### Teste completo de todas as ações por perfil (2026-10-27)
-No banco `pgdt_teste`, pelo navegador. Feito: varredura automática de todas as telas de 8 contas (admin, 2 coordenadores, 2 demandantes, 3 estudantes; cerca de 400 páginas), matriz de acesso (quem abre cada demanda, sub-projeto, entrega, edição, anexo e arquivo), todos os formulários de cada perfil com dados válidos, inválidos e forjados (enviados direto ao servidor), o ciclo completo de uma demanda sem escola e sem demandante, os fluxos do visitante (cadastro, confirmação de e-mail, convite, recuperação de senha) e a fila de avisos (45 e-mails, nenhuma falha).
+No banco `pgdt_teste`, pelo navegador. Feito: varredura automática de todas as telas de 8 contas (admin, 2 coordenadores, 2 demandantes, 3 estudantes; cerca de 400 páginas), matriz de acesso (quem abre cada demanda, sub-projeto, entrega, edição, anexo e arquivo), todos os formulários de cada perfil com dados válidos, inválidos e forjados (enviados direto ao servidor), o ciclo completo de uma demanda sem comunidade/instituição e sem demandante, os fluxos do visitante (cadastro, confirmação de e-mail, convite, recuperação de senha) e a fila de avisos (45 e-mails, nenhuma falha).
 
-**O que está certo:** nenhuma tela quebra; a matriz de acesso bate com as regras em todos os perfis; todas as validações testadas recusam o dado errado (arquivos falsos, SVG, limites, SIAPE e matrícula repetidos, status fora de ordem, projeto de outro coordenador, escola e demandante trocados, parâmetros inválidos, convite reusado).
+**O que está certo:** nenhuma tela quebra; a matriz de acesso bate com as regras em todos os perfis; todas as validações testadas recusam o dado errado (arquivos falsos, SVG, limites, SIAPE e matrícula repetidos, status fora de ordem, projeto de outro coordenador, comunidade/instituição e demandante trocados, parâmetros inválidos, convite reusado).
 
 **Erros encontrados:**
 | # | Erro | Como acontece | Gravidade |
@@ -484,8 +484,8 @@ No banco `pgdt_teste`, pelo navegador. Feito: varredura automática de todas as 
 | E7 | Convite cancelado ou substituído aparece como "Expirado" | Cancelar só encerra o prazo; a lista não diferencia | Baixa |
 | E8 | Ação repetida ou com a tela desatualizada mostra "Acesso negado" | Ex.: validar de novo uma entrega já avaliada (duplo clique ou duas abas): a página 403 não explica o que houve | Baixa |
 | E9 | Estudante removido vê a candidatura como "Aprovada" | Na vitrine, com o aviso "Você já participou desta equipe" | Baixa |
-| E10 | O admin não consegue corrigir os dados de um usuário (achado pelo autor; o teste completo não cobriu) | Na tela do usuário, curso e matrícula ficam dentro de "Trocar perfil", que exige um perfil diferente: trocar só o curso de um estudante dá "Escolha um perfil diferente do atual". O mesmo vale para matrícula, escola e cargo do demandante e SIAPE do coordenador. O estudante muda o próprio curso no "Meu perfil", mas a matrícula ninguém corrige | Alta |
-| E11 | "Conferir escola/instituição" edita a escola de todos | O bloco aparece para todo demandante e altera o cadastro da escola, que vale para todos os usuários e demandas dela; não há como mudar o demandante de escola | Média |
+| E10 | O admin não consegue corrigir os dados de um usuário (achado pelo autor; o teste completo não cobriu) | Na tela do usuário, curso e matrícula ficam dentro de "Trocar perfil", que exige um perfil diferente: trocar só o curso de um estudante dá "Escolha um perfil diferente do atual". O mesmo vale para matrícula, comunidade/instituição e cargo do demandante e SIAPE do coordenador. O estudante muda o próprio curso no "Meu perfil", mas a matrícula ninguém corrige | Alta |
+| E11 | "Conferir comunidade/instituição" edita a comunidade/instituição de todos | O bloco aparece para todo demandante e altera o cadastro da comunidade/instituição, que vale para todos os usuários e demandas dela; não há como mudar o demandante de comunidade/instituição | Média |
 
 **Conferido depois (2026-10-29):** rejeitar, inativar e reativar contas (motivo obrigatório; a pessoa vê o motivo no login) e inativar cadastro de apoio em uso (a demanda mantém o item) funcionam.
 
@@ -501,8 +501,8 @@ Banco novo `pgdt_teste2` (demonstração + complemento da Fase 9, todas as migra
 **Erros novos:**
 | # | Erro | Como acontece | Gravidade |
 |---|---|---|---|
-| N1 | Escola duplicada pelo cadastro de demandante | Em "Não encontrei minha escola", dá para cadastrar uma escola com o mesmo nome e cidade de uma existente (EMEF Córrego Alegre, Guaçuí); ao aprovar o cadastro, a escola aparece duas vezes nas listas | Média |
-| N2 | Projeto Base com título repetido | O sistema aceita criar outro "Robótica Educacional nas Escolas"; os dois aparecem iguais na escolha do projeto | Baixa |
+| N1 | Comunidade/instituição duplicada pelo cadastro de demandante | Em "Não encontrei minha comunidade/instituição", dá para cadastrar uma comunidade/instituição com o mesmo nome e cidade de uma existente (EMEF Córrego Alegre, Guaçuí); ao aprovar o cadastro, a comunidade/instituição aparece duas vezes nas listas | Média |
+| N2 | Projeto Base com título repetido | O sistema aceita criar outro "Robótica Educacional nas Comunidades/instituições"; os dois aparecem iguais na escolha do projeto | Baixa |
 | N3 | Trocar o perfil de um demandante com demandas não trata as demandas | Regina (4 demandas) virou estudante: as demandas continuam no nome dela, ela não consegue mais listá-las ("Minhas demandas" dá acesso negado) e segue recebendo os avisos; não há aviso antes da troca, como existe para o coordenador (E4) | Média |
 | N4 | Estudante de uma equipe que vira coordenador continua na equipe | Felipe virou coordenador: segue como membro (ocupa a vaga) e recebe os avisos da equipe, mas não abre mais o sub-projeto (acesso negado); não há aviso antes da troca | Média |
 | N5 | O painel do estudante conta as vagas sem a regra de vínculo | "Oportunidades: 3" para todos, mas a vitrine mostra só as dos projetos vinculados (0 para quem não tem vínculo); o contador em `HomeController` não usa `abertosPara` | Média |
@@ -524,7 +524,7 @@ Melhorias pedidas pelo autor, feitas antes da retomada da Fase 8 (decisão de 20
 - [x] Imagem do Projeto de extensão no cadastro e na edição; sem imagem, fundo padrão do sistema.
 - [x] "Meu perfil": cada usuário edita os próprios dados, a foto e a senha; sem foto, avatar padrão de acordo com o perfil (admin, coordenador, demandante, estudante).
 - [x] Coordenador abre demandas nos projetos que coordena, e o admin em qualquer projeto.
-- [x] Escola ou instituição opcional na demanda aberta pela coordenação.
+- [x] Comunidade ou instituição opcional na demanda aberta pela coordenação.
 - [x] Pesquisa em todos os combos (listas de seleção).
 - [x] Inclusão manual de estudantes extensionistas na equipe, ao criar ou editar o sub-projeto.
 - [x] Botão "Voltar" padronizado no topo das telas.
@@ -544,9 +544,9 @@ Melhorias pedidas pelo autor, feitas antes da retomada da Fase 8 (decisão de 20
 
 ### Meu perfil (2026-10-27)
 - **Acesso:** menu do usuário (canto direito, agora com a foto ao lado do nome) → "Meu perfil" (`/perfil`). Só para contas ativas.
-- **Aba "Meus dados":** nome e telefone para todos; curso (estudante), cargo (demandante), SIAPE e departamento (coordenador). Mostra sem permitir edição: e-mail, matrícula e escola.
+- **Aba "Meus dados":** nome e telefone para todos; curso (estudante), cargo (demandante), SIAPE e departamento (coordenador). Mostra sem permitir edição: e-mail, matrícula e comunidade/instituição.
 - **Aba "Senha":** troca com a senha atual.
-- **Foto:** enviar, trocar ou remover. Sem foto, aparece o avatar padrão do perfil: escudo cinza (admin), quadro roxo (coordenador), escola verde (demandante), capelo laranja (estudante), em `public/images/avatares/`. Se o admin trocar o perfil, o avatar padrão acompanha.
+- **Foto:** enviar, trocar ou remover. Sem foto, aparece o avatar padrão do perfil: escudo cinza (admin), quadro roxo (coordenador), comunidade/instituição verde (demandante), capelo laranja (estudante), em `public/images/avatares/`. Se o admin trocar o perfil, o avatar padrão acompanha.
 - **Onde a foto aparece:** menu, Meu perfil, lista e detalhe de usuários do admin, chat da demanda e equipe do sub-projeto.
 
 ### Decisões de implementação da Fase 9 (aprovadas pelo autor em 2026-10-27)
@@ -554,25 +554,25 @@ Melhorias pedidas pelo autor, feitas antes da retomada da Fase 8 (decisão de 20
 - (b) Os arquivos ficam fora da pasta pública (como os anexos) e saem por rota própria, sem precisar do `storage:link` no servidor. A imagem antiga é apagada quando é trocada ou removida.
 - (c) A imagem de projeto que está na página pública abre sem login. A de projeto oculto ou inativo segue as mesmas regras da tela do projeto.
 - (d) A foto de perfil só aparece para quem está logado; a página pública não mostra fotos (LGPD).
-- (e) O usuário não troca pelo "Meu perfil": e-mail (é o login; a troca fica com a coordenação), perfil, status, matrícula do estudante e escola do demandante (dependem da conferência do admin). O telefone continua obrigatório para o demandante.
+- (e) O usuário não troca pelo "Meu perfil": e-mail (é o login; a troca fica com a coordenação), perfil, status, matrícula do estudante e comunidade/instituição do demandante (dependem da conferência do admin). O telefone continua obrigatório para o demandante.
 - (f) Troca de senha exige a senha atual, com até 6 tentativas por minuto.
 
 ### Demanda aberta pela coordenação (2026-10-27)
-- **Quem:** o coordenador, só nos projetos ativos que coordena; o admin, em qualquer projeto ativo. O demandante continua abrindo só para a própria escola.
+- **Quem:** o coordenador, só nos projetos ativos que coordena; o admin, em qualquer projeto ativo. O demandante continua abrindo só para a própria comunidade/instituição.
 - **Onde:** botão "Nova demanda" na lista de demandas e "Nova demanda neste projeto" na tela do Projeto Base.
-- **Escola e demandante (escolha do autor: "os dois"):** a coordenação escolhe a escola e, se ela tiver alguém cadastrado, o demandante que acompanha. A lista de demandantes mostra só os da escola escolhida. Sem demandante, a demanda fica só em nome da escola.
+- **Comunidade/instituição e demandante (escolha do autor: "os dois"):** a coordenação escolhe a comunidade/instituição e, se ela tiver alguém cadastrado, o demandante que acompanha. A lista de demandantes mostra só os da comunidade/instituição escolhida. Sem demandante, a demanda fica só em nome da comunidade/instituição.
 - **Com demandante:** ele recebe um aviso por e-mail ("Demanda cadastrada em seu nome"), vê a demanda em "Minhas demandas", conversa no chat e dá o aceite normalmente.
-- **Sem demandante:** o contato com a escola e o aceite ficam com a coordenação. A tela da entrega explica isso, e a linha do tempo mostra "registrado pela coordenação em nome da escola".
-- **Registro:** a demanda entra como "Cadastrada" e segue a triagem normal. A linha do tempo mostra "Demanda aberta pela coordenação em nome de …" (ou "para a escola …, sem demandante no sistema"), e a tela da demanda mostra "Cadastrada por".
+- **Sem demandante:** o contato com a comunidade/instituição e o aceite ficam com a coordenação. A tela da entrega explica isso, e a linha do tempo mostra "registrado pela coordenação em nome da comunidade/instituição".
+- **Registro:** a demanda entra como "Cadastrada" e segue a triagem normal. A linha do tempo mostra "Demanda aberta pela coordenação em nome de …" (ou "para a comunidade/instituição …, sem demandante no sistema"), e a tela da demanda mostra "Cadastrada por".
 - **Banco:** `solicitacoes.demandante_id` passa a aceitar nulo e entra `solicitacoes.cadastrada_por`; as demandas antigas ficaram com o próprio demandante.
 
 ### Decisões de implementação da demanda pela coordenação (aprovadas pelo autor em 2026-10-27)
-- (g) Só demandante **ativo** e da escola escolhida pode ser indicado; só escola ativa pode ser escolhida (a escola nova digitada no cadastro precisa ser conferida pelo admin antes).
+- (g) Só demandante **ativo** e da comunidade/instituição escolhida pode ser indicado; só comunidade/instituição ativa pode ser escolhida (a comunidade/instituição nova digitada no cadastro precisa ser conferida pelo admin antes).
 - (h) O coordenador que abre a demanda não recebe aviso da própria ação; a coordenação do projeto (ou o admin, no "Demandas Gerais" sem coordenador) recebe o aviso de demanda nova, como hoje.
-- (i) Depois de aberta, a demanda não muda de demandante nem de escola (como a demanda aberta pelo demandante, que não é editada).
+- (i) Depois de aberta, a demanda não muda de demandante nem de comunidade/instituição (como a demanda aberta pelo demandante, que não é editada).
 
 ### Segundo lote de melhorias (2026-10-27)
-- **Escola opcional:** na "Nova demanda" da coordenação, a escola passa a ser opcional. Sem escola, a lista mostra todos os demandantes (com a escola de cada um ao lado), e escolher um demandante preenche a escola dele. Sem escola e sem demandante, a linha do tempo registra "Demanda aberta pela coordenação (sem escola e sem demandante no sistema)", e as telas mostram "Não informada" ou "—". Banco: `solicitacoes.escola_instituicao_id` passa a aceitar nulo (a demanda aberta pelo demandante continua com a escola dele). O dashboard já agrupa essas demandas em "Sem escola".
+- **Comunidade/instituição opcional:** na "Nova demanda" da coordenação, a comunidade/instituição passa a ser opcional. Sem comunidade/instituição, a lista mostra todos os demandantes (com a comunidade/instituição de cada um ao lado), e escolher um demandante preenche a comunidade/instituição dele. Sem comunidade/instituição e sem demandante, a linha do tempo registra "Demanda aberta pela coordenação (sem comunidade/instituição e sem demandante no sistema)", e as telas mostram "Não informada" ou "—". Banco: `solicitacoes.escola_instituicao_id` passa a aceitar nulo (a demanda aberta pelo demandante continua com a comunidade/instituição dele). O dashboard já agrupa essas demandas em "Sem comunidade/instituição".
 - **Combos com pesquisa:** todo combo do sistema ganhou uma caixa "Pesquisar...", que acha o item sem diferenciar maiúsculas e acentos ("corrego" acha "Córrego") e funciona pelo teclado (setas, Enter, Esc). Feito em JavaScript próprio (`resources/js/combo-pesquisa.js`), sem biblioteca nova. O combo original continua no formulário, escondido, e é ele que vai no envio.
 - **Estudantes na equipe pela coordenação:** criar e editar sub-projeto têm o bloco "Incluir estudantes na equipe", com o combo de estudantes (vários de uma vez, com pesquisa por nome, matrícula ou curso) e o papel. Entram na equipe na hora, com o registro na linha do tempo e um aviso por e-mail ("Você entrou na equipe").
 - **Botão "Voltar":** os links do topo que mostravam o nome da página anterior ("← Projetos Base", "← título da demanda") viraram um botão "← Voltar" igual em todas as telas (`layouts/_voltar.blade.php`). O destino continua na dica do botão e para leitores de tela. A tela de criar e editar Projeto Base também ganhou o botão.
@@ -587,11 +587,11 @@ Melhorias pedidas pelo autor, feitas antes da retomada da Fase 8 (decisão de 20
 - (n) O botão "Voltar" leva para a tela "de cima" (a lista ou a tela de origem fixa), e não para o histórico do navegador, para funcionar igual mesmo quando a pessoa chega por um link do e-mail.
 - (o) A data de término corrigida depois do encerramento não pode ser anterior ao início do sub-projeto.
 
-**Testes do segundo lote:** `EquipeManualTest` (3), `DemandaPelaCoordenacaoTest` (+1, escola opcional), `SubprojetoTest` (correção do término depois de concluída) e `RastreabilidadeTest` (janela da linha do tempo). 233 testes no total, todos passando. Combo com pesquisa e botão "Voltar" conferidos no navegador nas telas públicas (cadastro e página do projeto); as telas com login foram cobertas pelos testes, sem conferência visual.
+**Testes do segundo lote:** `EquipeManualTest` (3), `DemandaPelaCoordenacaoTest` (+1, comunidade/instituição opcional), `SubprojetoTest` (correção do término depois de concluída) e `RastreabilidadeTest` (janela da linha do tempo). 233 testes no total, todos passando. Combo com pesquisa e botão "Voltar" conferidos no navegador nas telas públicas (cadastro e página do projeto); as telas com login foram cobertas pelos testes, sem conferência visual.
 
 ### Cartões no celular (2026-10-27)
 - **Lista de usuários (admin):** em telas menores que um tablet, cada usuário aparece num cartão com foto, nome, e-mail, perfil, status (e o aviso "e-mail não confirmado"), data do cadastro e o botão "Analisar" ou "Detalhes". O status, que antes ficava escondido à direita da tabela, fica à vista. Do tablet para cima, a tabela continua igual.
-- **Relatório por extensionista:** no celular, cada participação vira um cartão com o sub-projeto, o status, a carga horária em destaque e as linhas Projeto, Escola, Papel e Período. O total de cada estudante continua no topo. O PDF não muda.
+- **Relatório por extensionista:** no celular, cada participação vira um cartão com o sub-projeto, o status, a carga horária em destaque e as linhas Projeto, Comunidade/instituição, Papel e Período. O total de cada estudante continua no topo. O PDF não muda.
 
 **Testes:** `AdminUsuariosTest` e `RelatorioTest` conferem os cartões. 233 testes no total, todos passando. A conferência visual no celular não foi feita: as duas telas exigem login.
 
@@ -624,9 +624,9 @@ Erros da seção "Teste completo de todas as ações por perfil", na ordem pedid
 - **E1 e E2 (erro 500):** quem foi removido volta para a equipe no mesmo registro (sem a data de remoção e com o papel novo), tanto pela edição do sub-projeto quanto pela aprovação de candidatura. A linha do tempo registra "voltou para a equipe", e o estudante recebe o aviso (ou o da aprovação, se voltou por candidatura).
 - **E9:** a candidatura aprovada de quem saiu da equipe aparece como "Aprovada · removido(a) da equipe" na vitrine, em "Meus sub-projetos" e na tela do sub-projeto.
 - **E3:** "Cancelada" não aparece mais para demanda concluída ou recusada, nem para o admin; o envio forjado é recusado.
-- **E10:** a tela do usuário no admin ganhou "Editar dados": nome, telefone e os dados do perfil atual (matrícula e curso; escola e cargo; SIAPE e departamento), sem trocar o perfil.
+- **E10:** a tela do usuário no admin ganhou "Editar dados": nome, telefone e os dados do perfil atual (matrícula e curso; comunidade/instituição e cargo; SIAPE e departamento), sem trocar o perfil.
 - **E10, ajuste (2026-10-29):** o autor ainda não conseguia trocar o curso. O servidor aceitava, mas a tela confundia: "Editar dados" ficava fechado embaixo, e "Trocar perfil" mostrava matrícula e curso do perfil atual, que davam "Escolha um perfil diferente do atual". Agora "Editar dados" fica sempre aberto, com a explicação do que corrige; "Trocar perfil" só mostra os campos de um perfil diferente e aponta para "Editar dados" (também nas mensagens de erro). Conferido no navegador com a página renderizada.
-- **E11:** "Conferir escola/instituição nova" só aparece para escola digitada no cadastro e ainda não conferida; a escola já conferida não é editada pela tela do usuário. O demandante muda de escola pelo "Editar dados", sem alterar a escola de mais ninguém.
+- **E11:** "Conferir comunidade/instituição nova" só aparece para comunidade/instituição digitada no cadastro e ainda não conferida; a comunidade/instituição já conferida não é editada pela tela do usuário. O demandante muda de comunidade/instituição pelo "Editar dados", sem alterar a comunidade/instituição de mais ninguém.
 - **E4:** ao inativar (ou rejeitar) um coordenador ativo ou trocar o perfil dele, os Projetos Base ficam "A definir pelo administrador" e os sub-projetos em andamento ficam "A definir pela administração", com registro na linha do tempo. A tela do usuário avisa antes quantos projetos e sub-projetos serão passados, e a mensagem de sucesso confirma. Os avisos da demanda deixam de ir para coordenador inativo ou com outro perfil e passam para todos os admins ativos. Banco: `subprojetos.coordenador_id` passa a aceitar nulo (migration `2026_10_29_000001`).
 - **E5:** depois de devolver a entrega ou registrar pendência, a mensagem só sugere "Aguardando Ajustes" com a demanda "Em Validação"; em desenvolvimento, diz que a equipe faz os ajustes e envia uma nova entrega.
 - **E7:** convite encerrado antes do prazo aparece como "Cancelado" ou "Substituído" (migration `2026_10_29_000002`, coluna `convites.encerrado_como`). Os convites encerrados antes desta correção continuam como "Expirado".
@@ -644,16 +644,16 @@ Erros da seção "Teste completo de todas as ações por perfil", na ordem pedid
 - (x) No E8, o aviso amigável vale para as decisões da entrega (validação técnica e aceite); as outras ações negadas mostram a página "Acesso negado" explicada.
 - (y) O motivo da recusa é opcional, com até 500 caracteres.
 
-**Testes:** `CorrecoesTesteCompletoTest` (12, um ou mais por erro), `AdminUsuariosTest` (+1 de "Editar dados" e escola) e `ValidacaoTest` (decisão repetida volta com aviso em vez de 403). 255 testes no total, todos passando. Não conferido no navegador.
+**Testes:** `CorrecoesTesteCompletoTest` (12, um ou mais por erro), `AdminUsuariosTest` (+1 de "Editar dados" e comunidade/instituição) e `ValidacaoTest` (decisão repetida volta com aviso em vez de 403). 255 testes no total, todos passando. Não conferido no navegador.
 
 ### Complemento dos dados de demonstração (2026-10-27)
 **Escolha do autor:** acrescentar dados sem apagar nada; apagar ou recriar banco só quando ele pedir.
 - **`DemonstracaoFase9Seeder`** (`php artisan db:seed --class=DemonstracaoFase9Seeder`, depois do `DemonstracaoSeeder`): só insere. Não apaga nem altera o que já existe, e rodar de novo não duplica (só confere os vínculos).
 - **O que acrescenta:**
   - 5 estudantes (Gabriela, Hugo, Isabela, Lucas, Marina), com a mesma senha das outras contas;
-  - uma escola sem ninguém cadastrado (EMEF Boa Esperança);
+  - uma comunidade/instituição sem ninguém cadastrado (EMEF Boa Esperança);
   - os vínculos de estudantes com os quatro projetos;
-  - 5 demandas: uma aberta pela coordenação em nome de demandante, uma pelo admin sem demandante, uma sem escola e sem demandante, uma em desenvolvimento com término prorrogado e uma aberta pelo demandante;
+  - 5 demandas: uma aberta pela coordenação em nome de demandante, uma pelo admin sem demandante, uma sem comunidade/instituição e sem demandante, uma em desenvolvimento com término prorrogado e uma aberta pelo demandante;
   - 3 sub-projetos, com inclusão manual na equipe, o papel "Outros" e vagas abertas na vitrine.
 - **Rodado no `pgdt_demo`:** usuários 15 → 20, demandas 11 → 16, sub-projetos 6 → 9, registros da linha do tempo 83 → 109, membros de equipe 11 → 16, vínculos 9 → 23. Nenhum registro apagado; o banco `pgdt` não foi tocado.
 - O `DemonstracaoSeeder` passou a ter os auxiliares `protected` (reaproveitados pelo complemento) e grava `cadastrada_por` nas demandas.
@@ -699,8 +699,8 @@ Detalhes de cada tabela, colunas e regras: [`docs/DER.md`](docs/DER.md).
 | 2026-10-18 | A demanda vinculada a um projeto de extensão vira um **sub-projeto** (tabela `subprojetos`). A carga horária estimada é uma por sub-projeto, preenchida pelo Admin ou pelo coordenador e editável em qualquer status, com registro no histórico. | Pedido do autor; o registro no histórico garante rastreabilidade das correções. |
 | 2026-10-18 | Ciclo de status da demanda sem mudanças automáticas: todos os status são alterados manualmente (coordenador/admin; `Cancelada` também pelo demandante antes de `Em Desenvolvimento`). A tela só sugere o próximo status. | Pedido do autor. |
 | 2026-10-18 | Campos específicos de cada perfil ficam em tabelas 1:1 (`estudantes`, `demandantes`, `coordenadores`), e não em `usuarios`. | O plano tinha duas versões; tabelas por perfil evitam colunas vazias e separam as regras de cada cadastro. |
-| 2026-10-18 | DER aprovado: o demandante escolhe a escola da lista ou digita uma nova (conferida pelo admin na aprovação); membro removido não aparece no RF15; papéis iniciais Membro Desenvolvedor, Responsável Técnico e Apoio de Campo; todo Projeto Base ativo é público por padrão, e o coordenador pode ocultar. | Pedido do autor. |
-| 2026-10-18 | Decisões de implementação da Fase 1: (a) a confirmação de e-mail vale só para o estudante, como decidido na Fase 0; (b) senha com no mínimo 8 caracteres, letras e números; (c) escola digitada pelo demandante nasce inativa e é ativada na aprovação; (d) o admin não altera o próprio status ou perfil; (e) na troca de perfil, os dados do perfil anterior ficam guardados; (f) estudante sem e-mail confirmado não pode ser aprovado. | Segurança e coerência com as decisões da Fase 0; aprovadas pelo autor junto com a Fase 1. |
+| 2026-10-18 | DER aprovado: o demandante escolhe a comunidade/instituição da lista ou digita uma nova (conferida pelo admin na aprovação); membro removido não aparece no RF15; papéis iniciais Membro Desenvolvedor, Responsável Técnico e Apoio de Campo; todo Projeto Base ativo é público por padrão, e o coordenador pode ocultar. | Pedido do autor. |
+| 2026-10-18 | Decisões de implementação da Fase 1: (a) a confirmação de e-mail vale só para o estudante, como decidido na Fase 0; (b) senha com no mínimo 8 caracteres, letras e números; (c) comunidade/instituição digitada pelo demandante nasce inativa e é ativada na aprovação; (d) o admin não altera o próprio status ou perfil; (e) na troca de perfil, os dados do perfil anterior ficam guardados; (f) estudante sem e-mail confirmado não pode ser aprovado. | Segurança e coerência com as decisões da Fase 0; aprovadas pelo autor junto com a Fase 1. |
 | 2026-10-21 | Decisões de implementação da Fase 2 (aprovadas pelo autor junto com a fase): (a) o coordenador edita só os projetos que coordena; (b) só o admin troca o coordenador responsável; (c) Projeto Base e itens de domínio não são apagados, só inativados; (d) `projetos_base.coordenador_id` aceita nulo só para o "Demandas Gerais" até o admin definir o coordenador; (e) demandante e estudante consultam a lista de projetos ativos. | Segurança, rastreabilidade e a decisão da Fase 0 sobre "Demandas Gerais". |
 | 2026-10-21 | Decisões de implementação da Fase 3 (aprovadas pelo autor junto com a fase): (a) o coordenador vê e classifica só as demandas dos projetos que coordena; as do "Demandas Gerais" sem coordenador ficam com o admin; (b) até 5 anexos por demanda, opcionais; (c) o demandante não edita a demanda depois de enviada (ajustes vão pelo chat da Fase 4); (d) "Priorizada" só depois de categoria, prioridade e complexidade definidas; (e) a triagem pode ser revista até "Priorizada"; (f) uma demanda recusada pode ser reaberta para "Em Análise"; (g) o histórico das mudanças de status (tabela `historicos`) entra na Fase 4; até lá fica gravado só o status atual, o motivo e quem fez a triagem. | Segurança e coerência com as decisões da Fase 0. |
 | 2026-10-21 | Decisões de implementação da Fase 4 (aprovadas pelo autor junto com a fase): (a) mensagens do chat não são editadas nem apagadas; (b) o chat fica só para leitura em "Concluída" e "Cancelada" e continua aberto em "Recusada"; (c) todos os envolvidos veem na linha do tempo quem fez cada ação; (d) `mensagens.perfil` guarda o perfil do autor no envio e `historicos.usuario_id` aceita nulo para mudanças fora de uma sessão de usuário; (e) sem aviso de nova mensagem nesta fase (fica para a Fase 7). | Rastreabilidade e coerência com as decisões da Fase 0. |
@@ -709,7 +709,7 @@ Detalhes de cada tabela, colunas e regras: [`docs/DER.md`](docs/DER.md).
 | 2026-10-27 | Revisão das decisões da Fase 6 pelo autor: (a) várias entregas ao mesmo tempo, numeradas na ordem de envio; (b) o coordenador e o admin podem enviar entregas em nome da equipe; (g) planilhas do Excel aceitas nos arquivos e no relatório técnico; (h) o período do relatório conta só os sub-projetos que começaram e terminaram entre as datas; (c), (d), (e), (f) e (i) aprovadas como estavam. | Pedido do autor. |
 | 2026-10-27 | Decisões de implementação da Fase 7 (aprovadas pelo autor): (a) e-mails de cadastro, convite e senha sempre ligados, o parâmetro desliga só os avisos novos; (b) um e-mail por mensagem do chat; (c) admins só recebem avisos das demandas sem coordenador; (d) avisos extras de nova demanda, nova candidatura, entrega enviada, aprovação técnica e aceite; (e) avisos pela fila do banco; (f) tempo médio de atendimento só com demandas concluídas e período pela data de abertura; (g) sem PDF nem gráfico por mês no dashboard; (h) menu "Configurações" do admin. | Pedido do autor (Fase 7). |
 | 2026-10-27 | A Fase 9 (melhorias) entra antes da retomada da Fase 8: a Fase 8 fica pausada depois do roteiro de testes, e os testes com usuários e o deploy usam o sistema já melhorado. | Pedido do autor. |
-| 2026-10-27 | Decisões da Fase 9 (aprovadas pelo autor): (a) imagem e foto em JPG, PNG ou WebP até 5 MB, regravadas em JPEG (projeto até 1600 px; foto 400 × 400 px, recortada pelo centro), sem os metadados do original; (b) arquivos fora da pasta pública, servidos por rota própria; (c) imagem de projeto público abre sem login; (d) foto de perfil só para quem está logado; (e) e-mail, perfil, status, matrícula e escola não mudam pelo "Meu perfil"; (f) troca de senha exige a senha atual, com até 6 tentativas por minuto; (g) só demandante ativo da escola escolhida e só escola ativa; (h) quem abre a demanda não recebe aviso da própria ação; (i) a demanda aberta não muda de demandante nem de escola. | Pedido do autor. |
+| 2026-10-27 | Decisões da Fase 9 (aprovadas pelo autor): (a) imagem e foto em JPG, PNG ou WebP até 5 MB, regravadas em JPEG (projeto até 1600 px; foto 400 × 400 px, recortada pelo centro), sem os metadados do original; (b) arquivos fora da pasta pública, servidos por rota própria; (c) imagem de projeto público abre sem login; (d) foto de perfil só para quem está logado; (e) e-mail, perfil, status, matrícula e comunidade/instituição não mudam pelo "Meu perfil"; (f) troca de senha exige a senha atual, com até 6 tentativas por minuto; (g) só demandante ativo da comunidade/instituição escolhida e só comunidade/instituição ativa; (h) quem abre a demanda não recebe aviso da própria ação; (i) a demanda aberta não muda de demandante nem de comunidade/instituição. | Pedido do autor. |
 | 2026-10-27 | Decisões do segundo lote da Fase 9 (aprovadas pelo autor): (j) só estudantes ativos e fora da equipe podem ser incluídos; (k) a inclusão respeita as vagas e nada é gravado se der erro; (l) candidatura pendente é aprovada na inclusão, e quem entra sem candidatura não se candidata ao mesmo sub-projeto; (m) os incluídos de uma vez recebem o mesmo papel; (n) o "Voltar" leva à tela de origem fixa, não ao histórico do navegador; (o) o término corrigido não pode ser anterior ao início. | Pedido do autor. |
 | 2026-10-27 | Decisões do terceiro lote da Fase 9 (aprovadas pelo autor): (p) o admin, em qualquer projeto, e o coordenador do projeto vinculam e desvinculam estudantes; (q) desvincular não tira o estudante das equipes de que já faz parte; (r) só estudantes ativos são vinculados, e quem teve a conta inativada continua marcado até ser desmarcado; (s) a vitrine e a aprovação de candidatura também exigem o vínculo com o Projeto Base. | Pedido do autor. |
 | 2026-10-29 | Correções do teste completo da Fase 8 (escolhas e decisões aprovadas pelo autor): E4, coordenador inativado ou com outro perfil passa os Projetos Base e os sub-projetos em andamento para a administração, e os encerrados ficam no nome dele; E6, trocar o coordenador do Projeto Base não passa os sub-projetos existentes; (t) removido não se candidata de novo, volta só pela coordenação; (u) sub-projetos cancelados ou recusados também ficam com o coordenador; (v) demanda recusada não é cancelada; (w) o admin não edita o e-mail; (x) aviso amigável nas decisões da entrega e página "Acesso negado" explicada nas demais; (y) motivo da recusa opcional, até 500 caracteres. | Pedido do autor. |
@@ -762,8 +762,8 @@ Detalhes de cada tabela, colunas e regras: [`docs/DER.md`](docs/DER.md).
 | 2026-10-27 | 8 | Branch `feature/fase8-testes-implantacao` enviada ao GitHub como cópia de segurança, sem juntar na `main`. |
 | 2026-10-27 | 9 | Fase 9 iniciada na branch `feature/fase9-melhorias`, criada a partir da `feature/fase8-testes-implantacao`. Aguarda o autor definir a lista de melhorias. |
 | 2026-10-27 | 9 | Imagem do Projeto de extensão (com fundo padrão) e "Meu perfil" (dados, foto com avatar padrão por perfil e senha) implementados. Colunas `projetos_base.imagem` e `usuarios.foto`. 223 testes passando. Aguarda a aprovação do autor e das decisões (a)–(f). |
-| 2026-10-27 | 9 | Coordenador (nos projetos que coordena) e admin (em qualquer projeto) passam a abrir demandas, em nome de uma escola e, se houver, de um demandante. Colunas: `solicitacoes.demandante_id` opcional e `solicitacoes.cadastrada_por`. 229 testes passando. Aguarda a aprovação do autor e das decisões (g)–(i). |
-| 2026-10-27 | 9 | Segundo lote de melhorias: escola opcional na demanda da coordenação (migration `2026_10_27_000005`, rodada nos bancos `pgdt` e `pgdt_demo`), combos com pesquisa, inclusão manual de estudantes na equipe, botão "Voltar" padronizado, linha do tempo em janela e término do sub-projeto corrigível depois do encerramento. 233 testes passando. Aguarda a aprovação das decisões (j)–(o). |
+| 2026-10-27 | 9 | Coordenador (nos projetos que coordena) e admin (em qualquer projeto) passam a abrir demandas, em nome de uma comunidade/instituição e, se houver, de um demandante. Colunas: `solicitacoes.demandante_id` opcional e `solicitacoes.cadastrada_por`. 229 testes passando. Aguarda a aprovação do autor e das decisões (g)–(i). |
+| 2026-10-27 | 9 | Segundo lote de melhorias: comunidade/instituição opcional na demanda da coordenação (migration `2026_10_27_000005`, rodada nos bancos `pgdt` e `pgdt_demo`), combos com pesquisa, inclusão manual de estudantes na equipe, botão "Voltar" padronizado, linha do tempo em janela e término do sub-projeto corrigível depois do encerramento. 233 testes passando. Aguarda a aprovação das decisões (j)–(o). |
 | 2026-10-27 | 9 | Autor aprovou as decisões (j)–(o) do segundo lote. Seguem pendentes a aprovação das decisões (a)–(i) da Fase 9 e o item dos cartões no celular. |
 | 2026-10-27 | 9 | Autor aprovou as decisões (a)–(i) da Fase 9. Falta o item dos cartões no celular (lista de usuários e relatório). |
 | 2026-10-27 | 9 | Cartões no celular na lista de usuários e no relatório por extensionista. Todos os itens da Fase 9 prontos; 233 testes passando. Aguarda a validação do autor (conferência no navegador) para concluir a fase. |
@@ -777,7 +777,7 @@ Detalhes de cada tabela, colunas e regras: [`docs/DER.md`](docs/DER.md).
 | 2026-10-27 | 8 | Ensaio do roteiro de testes com usuários feito no navegador, com o código da Fase 9, no banco separado `pgdt_teste` (sem tocar no `pgdt_demo`): 23 de 24 tarefas concluídas, sem erros; 9 problemas registrados na seção da Fase 8 (4 do sistema para a Fase 9, 5 do roteiro e dos dados). |
 | 2026-10-27 | 8 | Roteiro de testes com usuários corrigido (Bruno, D2, A5 e preparação no banco `pgdt_teste`, sem apagar o `pgdt` nem o `pgdt_demo`). Falta ajustar as datas da demonstração (item 8). |
 | 2026-10-27 | 8 | Teste completo de todas as ações de cada perfil no `pgdt_teste`: cerca de 400 telas sem erro e matriz de acesso correta; 9 erros registrados (E1–E9), dois deles com erro 500 na equipe e um que deixa o admin cancelar demanda concluída. Aguarda o autor decidir as correções. |
-| 2026-10-29 | 8 | Erro achado pelo autor reproduzido: o admin não consegue trocar o curso (nem outros dados) de um usuário sem trocar o perfil (E10). Achado junto: o bloco "Conferir escola" edita a escola de todos (E11). Para a sessão da Fase 9 corrigir. |
+| 2026-10-29 | 8 | Erro achado pelo autor reproduzido: o admin não consegue trocar o curso (nem outros dados) de um usuário sem trocar o perfil (E10). Achado junto: o bloco "Conferir comunidade/instituição" edita a comunidade/instituição de todos (E11). Para a sessão da Fase 9 corrigir. |
 | 2026-10-29 | 8 | Reteste completo depois das correções, no banco novo `pgdt_teste2`: 45 ações do inventário, 255 testes automáticos, permissões, ciclo completo, parâmetros, fila e log. E1–E11 conferidos como corrigidos; 5 erros novos (N1–N5) e textos menores registrados para a Fase 9. |
 | 2026-11-01 | 8 | Autor decidiu não corrigir por enquanto os erros N1–N5 e os textos menores do reteste; ficam como pendências conhecidas. |
 | 2026-11-01 | 9 | Branch `feature/fase9-melhorias` enviada ao GitHub, com todas as melhorias e correções da Fase 9 e o registro do reteste. A junção na `main` fica para o fim da Fase 8. |

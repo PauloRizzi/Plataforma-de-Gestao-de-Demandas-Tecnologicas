@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 /**
- * RF02: cadastro institucional. O demandante escolhe a escola na lista
+ * RF02: cadastro institucional. O demandante escolhe a comunidade/instituição na lista
  * ou digita uma nova, que o admin confere na aprovação.
  */
 class CadastroDemandanteRequest extends FormRequest
@@ -55,11 +55,11 @@ class CadastroDemandanteRequest extends FormRequest
         return [
             'email.unique' => 'Já existe uma conta com este e-mail. Use "Esqueci minha senha" se não lembrar a senha.',
             'telefone.regex' => 'Informe o telefone no formato (28) 99999-9999.',
-            'escola_instituicao_id.required_if' => 'Escolha a escola ou instituição na lista, ou clique em "Não encontrei minha escola".',
-            'nova_escola_nome.required_if' => 'Informe o nome da escola ou instituição.',
-            'nova_escola_tipo.required_if' => 'Informe o tipo da escola ou instituição.',
-            'nova_escola_cidade.required_if' => 'Informe a cidade da escola ou instituição.',
-            'nova_escola_uf.required_if' => 'Informe a UF da escola ou instituição.',
+            'escola_instituicao_id.required_if' => 'Escolha a comunidade ou instituição na lista, ou clique em "Não encontrei minha comunidade/instituição".',
+            'nova_escola_nome.required_if' => 'Informe o nome da comunidade ou instituição.',
+            'nova_escola_tipo.required_if' => 'Informe o tipo da comunidade ou instituição.',
+            'nova_escola_cidade.required_if' => 'Informe a cidade da comunidade ou instituição.',
+            'nova_escola_uf.required_if' => 'Informe a UF da comunidade ou instituição.',
         ];
     }
 
@@ -69,8 +69,8 @@ class CadastroDemandanteRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'escola_instituicao_id' => 'escola ou instituição',
-            'nova_escola_nome' => 'nome da escola',
+            'escola_instituicao_id' => 'comunidade ou instituição',
+            'nova_escola_nome' => 'nome da comunidade/instituição',
             'nova_escola_tipo' => 'tipo',
             'nova_escola_cidade' => 'cidade',
             'nova_escola_uf' => 'UF',

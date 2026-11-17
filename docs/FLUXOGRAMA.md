@@ -6,11 +6,11 @@ Os diagramas estão em [Mermaid](https://mermaid.js.org/): o GitHub mostra os de
 
 Eles descrevem o sistema como está implementado (Fases 0 a 9, novembro de 2026).
 
-**Perfis:** Administrador · Coordenador projeto de extensão · Demandante (escola/instituição) · Estudante Extensionista · Visitante (sem login)
+**Perfis:** Administrador · Coordenador projeto de extensão · Demandante (comunidade/instituição) · Estudante Extensionista · Visitante (sem login)
 
 **Termos:**
 - **Projeto de extensão (Projeto Base):** a linha de extensão cadastrada pela coordenação (RF05).
-- **Demanda (solicitação):** o pedido de uma escola ou instituição, sempre ligado a um projeto de extensão (RF06).
+- **Demanda (solicitação):** o pedido de uma comunidade ou instituição, sempre ligado a um projeto de extensão (RF06).
 - **Sub-projeto:** a demanda priorizada que vira trabalho de uma equipe de estudantes (RF09).
 
 ---
@@ -83,7 +83,7 @@ flowchart TD
     S2 -- Não --> S3["Bloqueia e indica<br/>o cadastro de demandante"]
     S2 -- Sim --> S4["Confirma o e-mail<br/>pelo link recebido"]
 
-    V2 -- "Represento uma escola<br/>ou instituição" --> M1["Formulário do demandante<br/>(escola, cargo e telefone)"]
+    V2 -- "Represento uma comunidade<br/>ou instituição" --> M1["Formulário do demandante<br/>(comunidade/instituição, cargo e telefone)"]
     M1 --> M2{"E-mail da UFES?"}
     M2 -- Sim --> M3["Aviso: quer se cadastrar<br/>como estudante?"]
     M2 -- Não --> P0
@@ -191,4 +191,4 @@ flowchart TD
     G --> H["Horas do sub-projeto entram<br/>no relatório de cada membro (RF15)"]
 ```
 
-Se a escola não tem demandante no sistema, a coordenação registra o aceite ou a pendência em nome dela. A linha do tempo mostra essa informação.
+Se a comunidade/instituição não tem demandante no sistema, a coordenação registra o aceite ou a pendência em nome dela. A linha do tempo mostra essa informação.

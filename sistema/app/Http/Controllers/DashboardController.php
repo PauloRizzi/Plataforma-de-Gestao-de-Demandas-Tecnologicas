@@ -15,12 +15,12 @@ use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 /**
- * Dashboard gerencial (Fase 7): demandas por status, categoria, escola e Projeto Base, e os tempos
+ * Dashboard gerencial (Fase 7): demandas por status, categoria, comunidade/instituição e Projeto Base, e os tempos
  * médios de atendimento. O admin vê todas as demandas; o coordenador, as que ele pode ver (RF07).
  */
 class DashboardController extends Controller
 {
-    /** Quantas escolas aparecem no gráfico; as demais somam em "Outras". */
+    /** Quantas comunidades/instituições aparecem no gráfico; as demais somam em "Outras". */
     private const ESCOLAS_NO_GRAFICO = 10;
 
     public function index(Request $request): View
@@ -62,7 +62,7 @@ class DashboardController extends Controller
             'tempoDePrimeiraResposta' => $this->mediaEmDias($demandas, fn (Solicitacao $demanda) => $this->dataDoStatus($demanda, fn (Historico $historico) => ($historico->dados['de'] ?? null) === StatusDemanda::Cadastrada->value, primeira: true)),
             'porStatus' => $porStatus,
             'porCategoria' => $this->contar($demandas, fn (Solicitacao $demanda) => $demanda->categoria?->nome ?? 'Sem categoria (não classificada)'),
-            'porEscola' => $this->agruparOutras($this->contar($demandas, fn (Solicitacao $demanda) => $demanda->escolaInstituicao?->nome ?? 'Sem escola')),
+            'porEscola' => $this->agruparOutras($this->contar($demandas, fn (Solicitacao $demanda) => $demanda->escolaInstituicao?->nome ?? 'Sem comunidade/instituição')),
             'porProjeto' => $this->contar($demandas, fn (Solicitacao $demanda) => $demanda->projetoBase?->titulo ?? 'Sem projeto'),
         ]);
     }
@@ -106,7 +106,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * Mantém as escolas com mais demandas e soma as demais em "Outras".
+     * Mantém as comunidades/instituições com mais demandas e soma as demais em "Outras".
      *
      * @param  Collection<string, int>  $contagem
      * @return Collection<string, int>
@@ -119,7 +119,7 @@ class DashboardController extends Controller
 
         $outras = $contagem->slice(self::ESCOLAS_NO_GRAFICO);
 
-        return $contagem->take(self::ESCOLAS_NO_GRAFICO)->put("Outras ({$outras->count()} escolas)", $outras->sum());
+        return $contagem->take(self::ESCOLAS_NO_GRAFICO)->put("Outras ({$outras->count()} comunidades/instituições)", $outras->sum());
     }
 
     /**

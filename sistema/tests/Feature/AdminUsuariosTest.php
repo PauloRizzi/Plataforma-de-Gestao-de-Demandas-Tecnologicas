@@ -183,7 +183,7 @@ class AdminUsuariosTest extends TestCase
             'uf' => 'es',
         ];
 
-        $this->actingAs($this->admin)->get("/admin/usuarios/{$demandante->id}")->assertSee('Conferir escola/instituição nova');
+        $this->actingAs($this->admin)->get("/admin/usuarios/{$demandante->id}")->assertSee('Conferir comunidade/instituição nova');
         $this->actingAs($this->admin)->patch("/admin/usuarios/{$demandante->id}/escola", $dados)->assertSessionHasNoErrors();
 
         $this->assertDatabaseHas('escolas_instituicoes', ['nome' => 'EEEFM Corrigida', 'codigo_inep' => '32012345', 'uf' => 'ES']);
@@ -192,7 +192,7 @@ class AdminUsuariosTest extends TestCase
         $outro = Usuario::factory()->demandante()->create();
         $nomeOriginal = $outro->demandante->escolaInstituicao->nome;
 
-        $this->actingAs($this->admin)->get("/admin/usuarios/{$outro->id}")->assertDontSee('Conferir escola/instituição nova');
+        $this->actingAs($this->admin)->get("/admin/usuarios/{$outro->id}")->assertDontSee('Conferir comunidade/instituição nova');
         $this->actingAs($this->admin)->patch("/admin/usuarios/{$outro->id}/escola", [...$dados, 'codigo_inep' => '32099999'])
             ->assertSessionHasErrors('escola');
         $this->assertSame($nomeOriginal, $outro->demandante->escolaInstituicao->fresh()->nome);

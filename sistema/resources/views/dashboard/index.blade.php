@@ -84,7 +84,7 @@
             @include('dashboard._barras', ['titulo' => 'Por categoria', 'contagem' => $porCategoria])
         </div>
         <div class="col-lg-6">
-            @include('dashboard._barras', ['titulo' => 'Por escola ou instituição', 'contagem' => $porEscola])
+            @include('dashboard._barras', ['titulo' => 'Por comunidade ou instituição', 'contagem' => $porEscola])
         </div>
         <div class="col-lg-6">
             @include('dashboard._barras', ['titulo' => 'Por projeto de extensão', 'contagem' => $porProjeto])

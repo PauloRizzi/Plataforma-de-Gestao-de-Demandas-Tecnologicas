@@ -7,7 +7,7 @@
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3">
         <div>
             <h1 class="h3 mb-0">Projetos Base</h1>
-            <p class="text-muted small mb-0">Projetos de extensão que recebem as demandas das escolas e instituições.</p>
+            <p class="text-muted small mb-0">Projetos de extensão que recebem as demandas das comunidades e instituições.</p>
         </div>
         @can('create', \App\Models\ProjetoBase::class)
             <a href="{{ route('projetos-base.create') }}" class="btn btn-primary">Novo Projeto Base</a>

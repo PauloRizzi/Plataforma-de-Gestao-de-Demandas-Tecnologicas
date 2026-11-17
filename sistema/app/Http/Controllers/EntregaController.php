@@ -185,7 +185,7 @@ class EntregaController extends Controller
 
         $decisao = $this->decidir($request, $entrega, EtapaValidacao::Aceite);
         $ehDemandante = $subprojeto->solicitacao->demandante_id === $request->user()->id;
-        $emNomeDe = $subprojeto->solicitacao->demandante_id === null ? 'da escola' : 'do demandante';
+        $emNomeDe = $subprojeto->solicitacao->demandante_id === null ? 'da comunidade/instituição' : 'do demandante';
 
         return redirect()->route('subprojetos.entregas.show', [$subprojeto, $entrega])->with('sucesso', match (true) {
             $decisao === DecisaoValidacao::Aceita && $ehDemandante => 'Solução aceita. Obrigado! A coordenação vai concluir a demanda.',

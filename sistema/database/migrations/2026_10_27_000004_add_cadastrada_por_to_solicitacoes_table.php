@@ -9,7 +9,7 @@ return new class extends Migration
 {
     /**
      * Fase 9: o coordenador (nos projetos que coordena) e o admin (em qualquer projeto) também abrem demandas.
-     * A demanda pode ficar sem demandante, quando a escola não tem ninguém cadastrado no sistema;
+     * A demanda pode ficar sem demandante, quando a comunidade/instituição não tem ninguém cadastrado no sistema;
      * `cadastrada_por` guarda quem registrou a demanda.
      */
     public function up(): void

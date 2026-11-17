@@ -10,7 +10,7 @@
             <div class="card shadow-sm">
                 <div class="card-body p-4">
                     <h1 class="h4 mb-1">Cadastro de Demandante</h1>
-                    <p class="text-muted small mb-1">Para quem representa uma escola ou instituição e quer solicitar apoio tecnológico.</p>
+                    <p class="text-muted small mb-1">Para quem representa uma comunidade ou instituição e quer solicitar apoio tecnológico.</p>
                     <p class="small mb-4">
                         Não é o seu caso? <a href="{{ route('register') }}">Trocar tipo de cadastro</a>
                     </p>
@@ -48,25 +48,25 @@
                         <div id="aviso-ufes" class="alert alert-warning small d-none" role="status">
                             Parece que você é da UFES. Quer se cadastrar como estudante?
                             <a href="{{ route('cadastro.estudante') }}">Ir para o cadastro de estudante</a>.
-                            Se você representa uma escola ou instituição, pode continuar aqui.
+                            Se você representa uma comunidade ou instituição, pode continuar aqui.
                         </div>
 
                         <div class="mb-4">
-                            <label for="cargo" class="form-label">Cargo ou função na escola/instituição</label>
+                            <label for="cargo" class="form-label">Cargo ou função na comunidade/instituição</label>
                             <input id="cargo" type="text" class="form-control @error('cargo') is-invalid @enderror" name="cargo" value="{{ old('cargo') }}" required maxlength="100" placeholder="Ex.: Diretor(a), Coordenador(a) pedagógico(a)">
                             @error('cargo')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <h2 class="h6 text-uppercase text-muted mb-3">Escola ou instituição</h2>
+                        <h2 class="h6 text-uppercase text-muted mb-3">Comunidade ou instituição</h2>
 
                         <input type="hidden" name="escola_modo" id="escola_modo" value="{{ $escolaModo }}">
 
                         <div id="escola-lista" class="mb-3 @if ($escolaModo === 'nova') d-none @endif">
                             <label for="escola_instituicao_id" class="form-label">Escolha na lista</label>
                             <select id="escola_instituicao_id" name="escola_instituicao_id" class="form-select @error('escola_instituicao_id') is-invalid @enderror">
-                                <option value="">Selecione a escola ou instituição</option>
+                                <option value="">Selecione a comunidade ou instituição</option>
                                 @foreach ($escolas as $escola)
                                     <option value="{{ $escola->id }}" @selected(old('escola_instituicao_id') == $escola->id)>{{ $escola->nomeCompleto() }}</option>
                                 @endforeach
@@ -74,13 +74,13 @@
                             @error('escola_instituicao_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <button type="button" class="btn btn-link px-0 small" data-escola-modo="nova">Não encontrei minha escola</button>
+                            <button type="button" class="btn btn-link px-0 small" data-escola-modo="nova">Não encontrei minha comunidade/instituição</button>
                         </div>
 
                         <div id="escola-nova" class="border rounded p-3 mb-3 bg-light @if ($escolaModo === 'lista') d-none @endif">
-                            <p class="small text-muted mb-3">Informe os dados da escola ou instituição. O administrador vai conferir junto com o seu cadastro.</p>
+                            <p class="small text-muted mb-3">Informe os dados da comunidade ou instituição. O administrador vai conferir junto com o seu cadastro.</p>
                             <div class="mb-3">
-                                <label for="nova_escola_nome" class="form-label">Nome da escola ou instituição</label>
+                                <label for="nova_escola_nome" class="form-label">Nome da comunidade ou instituição</label>
                                 <input id="nova_escola_nome" type="text" class="form-control @error('nova_escola_nome') is-invalid @enderror" name="nova_escola_nome" value="{{ old('nova_escola_nome') }}" maxlength="200">
                                 @error('nova_escola_nome')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -115,7 +115,7 @@
                                 </div>
                             </div>
                             @if ($escolas->isNotEmpty())
-                                <button type="button" class="btn btn-link px-0 small mt-2" data-escola-modo="lista">Voltar para a lista de escolas</button>
+                                <button type="button" class="btn btn-link px-0 small mt-2" data-escola-modo="lista">Voltar para a lista de comunidades/instituições</button>
                             @endif
                         </div>
 

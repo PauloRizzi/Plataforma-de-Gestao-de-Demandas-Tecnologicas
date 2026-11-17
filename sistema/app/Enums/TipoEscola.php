@@ -6,6 +6,7 @@ enum TipoEscola: string
 {
     case EscolaPublica = 'escola_publica';
     case EscolaPrivada = 'escola_privada';
+    case Comunidade = 'comunidade';
     case Instituicao = 'instituicao';
     case Outro = 'outro';
 
@@ -14,6 +15,7 @@ enum TipoEscola: string
         return match ($this) {
             self::EscolaPublica => 'Escola pública',
             self::EscolaPrivada => 'Escola privada',
+            self::Comunidade => 'Comunidade',
             self::Instituicao => 'Instituição',
             self::Outro => 'Outro',
         };

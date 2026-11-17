@@ -122,7 +122,7 @@
                         <div class="card-body">
                             <h2 class="h5">Seus projetos de extensão</h2>
                             <p class="display-6 mb-2">{{ $totalMeusProjetos }}</p>
-                            <p class="text-muted">Projetos Base que recebem as demandas das escolas.</p>
+                            <p class="text-muted">Projetos Base que recebem as demandas das comunidades/instituições.</p>
                             <a href="{{ route('projetos-base.index', ['meus' => 1]) }}" class="btn btn-outline-primary btn-sm">Ver meus projetos</a>
                             <a href="{{ route('projetos-base.create') }}" class="btn btn-outline-primary btn-sm">Novo Projeto Base</a>
                         </div>
@@ -137,7 +137,7 @@
                     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-start gap-2 mb-2">
                         <div>
                             <h2 class="h5 mb-1">Suas demandas</h2>
-                            <p class="text-muted small mb-0">Escola/instituição: {{ $usuario->demandante?->escolaInstituicao?->nomeCompleto() }}</p>
+                            <p class="text-muted small mb-0">Comunidade/instituição: {{ $usuario->demandante?->escolaInstituicao?->nomeCompleto() }}</p>
                         </div>
                         <a href="{{ route('demandas.create') }}" class="btn btn-primary btn-sm">Nova demanda</a>
                     </div>

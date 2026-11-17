@@ -73,7 +73,7 @@
                     <tr>
                         <th>Demanda</th>
                         @unless ($ehDemandante)
-                            <th class="d-none d-md-table-cell">Escola/instituição</th>
+                            <th class="d-none d-md-table-cell">Comunidade/instituição</th>
                             <th class="d-none d-lg-table-cell">Prioridade</th>
                         @endunless
                         <th class="d-none d-md-table-cell">Aberta em</th>
