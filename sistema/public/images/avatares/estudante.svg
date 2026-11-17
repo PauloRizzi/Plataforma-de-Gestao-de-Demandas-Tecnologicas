@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Avatar padrão do estudante extensionista">
+  <rect width="128" height="128" fill="#fd7e14"/>
+  <path d="M64 34 20 54l44 20 44-20z" fill="#ffffff"/>
+  <path d="M40 64v18c0 8 11 14 24 14s24-6 24-14V64L64 75z" fill="#ffffff"/>
+  <path d="M100 58v24" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="100" cy="86" r="5" fill="#ffffff"/>
+</svg>

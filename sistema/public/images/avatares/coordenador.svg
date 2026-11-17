@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Avatar padrão do coordenador de projeto de extensão">
+  <rect width="128" height="128" fill="#6f42c1"/>
+  <rect x="28" y="30" width="72" height="50" rx="4" fill="#ffffff"/>
+  <path d="M40 68l14-14 10 9 20-19" fill="none" stroke="#6f42c1" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M64 80v12M64 92 48 104M64 92l16 12" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,11 @@
+# Windows / OneDrive
+Thumbs.db
+desktop.ini
+
+# Material da apresentação ao orientador (fica só no computador)
+/apresentacao-orientador/
+/PREPARAR-APRESENTACAO.bat
+
+# Scripts de envio ao GitHub
+/SUBIR-PARA-GITHUB.bat
+/LIMPAR-E-ATUALIZAR-GITHUB.bat

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Avatar padrão do administrador">
+  <rect width="128" height="128" fill="#495057"/>
+  <path d="M64 26 36 37v22c0 19 12 35 28 41 16-6 28-22 28-41V37z" fill="#ffffff"/>
+  <path d="m51 64 9 9 18-19" fill="none" stroke="#495057" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

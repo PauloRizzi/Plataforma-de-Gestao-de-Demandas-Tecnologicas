@@ -1,0 +1,278 @@
+<?php
+
+namespace App\Models;
+
+use App\Enums\Complexidade;
+use App\Enums\Perfil;
+use App\Enums\SituacaoEntrega;
+use App\Enums\StatusDemanda;
+use App\Enums\StatusUsuario;
+use App\Enums\TipoHistorico;
+use App\Observers\SolicitacaoObserver;
+use Database\Factories\SolicitacaoFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Collection;
+
+/**
+ * Demanda aberta pelo demandante (RF06), classificada pelo coordenador (RF07) e acompanhada
+ * pela linha do tempo e pelo chat (RF08). Aceita, vira um sub-projeto (RF09).
+ */
+#[Fillable([
+    'projeto_base_id', 'demandante_id', 'cadastrada_por', 'escola_instituicao_id', 'titulo', 'descricao', 'justificativa', 'publico_afetado',
+    'status', 'motivo_status', 'categoria_id', 'prioridade_id', 'complexidade', 'triado_por', 'triado_em',
+])]
+#[ObservedBy(SolicitacaoObserver::class)]
+class Solicitacao extends Model
+{
+    /** @use HasFactory<SolicitacaoFactory> */
+    use HasFactory;
+
+    protected $table = 'solicitacoes';
+
+    protected $attributes = [
+        'status' => 'cadastrada',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'status' => StatusDemanda::class,
+            'complexidade' => Complexidade::class,
+            'triado_em' => 'datetime',
+        ];
+    }
+
+    /**
+     * @return BelongsTo<ProjetoBase, $this>
+     */
+    public function projetoBase(): BelongsTo
+    {
+        return $this->belongsTo(ProjetoBase::class);
+    }
+
+    /**
+     * @return BelongsTo<Usuario, $this>
+     */
+    public function demandante(): BelongsTo
+    {
+        return $this->belongsTo(Usuario::class, 'demandante_id');
+    }
+
+    /**
+     * Fase 9: quem registrou a demanda (o demandante, o coordenador ou o admin).
+     *
+     * @return BelongsTo<Usuario, $this>
+     */
+    public function cadastrador(): BelongsTo
+    {
+        return $this->belongsTo(Usuario::class, 'cadastrada_por');
+    }
+
+    /**
+     * Fase 9: demanda registrada pela coordenação ou pelo admin, em nome do demandante ou só da escola.
+     */
+    public function cadastradaPelaCoordenacao(): bool
+    {
+        return $this->cadastrada_por !== null && $this->cadastrada_por !== $this->demandante_id;
+    }
+
+    /**
+     * @return BelongsTo<EscolaInstituicao, $this>
+     */
+    public function escolaInstituicao(): BelongsTo
+    {
+        return $this->belongsTo(EscolaInstituicao::class);
+    }
+
+    /**
+     * @return BelongsTo<CategoriaDemanda, $this>
+     */
+    public function categoria(): BelongsTo
+    {
+        return $this->belongsTo(CategoriaDemanda::class);
+    }
+
+    /**
+     * @return BelongsTo<Prioridade, $this>
+     */
+    public function prioridade(): BelongsTo
+    {
+        return $this->belongsTo(Prioridade::class);
+    }
+
+    /**
+     * @return BelongsTo<Usuario, $this>
+     */
+    public function triador(): BelongsTo
+    {
+        return $this->belongsTo(Usuario::class, 'triado_por');
+    }
+
+    /**
+     * @return HasMany<Anexo, $this>
+     */
+    public function anexos(): HasMany
+    {
+        return $this->hasMany(Anexo::class);
+    }
+
+    /**
+     * Linha do tempo da demanda (RF08), da mais antiga para a mais recente.
+     *
+     * @return HasMany<Historico, $this>
+     */
+    public function historicos(): HasMany
+    {
+        return $this->hasMany(Historico::class)->orderBy('created_at')->orderBy('id');
+    }
+
+    /**
+     * Chat da demanda (RF08), da mais antiga para a mais recente.
+     *
+     * @return HasMany<Mensagem, $this>
+     */
+    public function mensagens(): HasMany
+    {
+        return $this->hasMany(Mensagem::class)->orderBy('created_at')->orderBy('id');
+    }
+
+    /**
+     * Sub-projeto criado a partir da demanda (RF09).
+     *
+     * @return HasOne<Subprojeto, $this>
+     */
+    public function subprojeto(): HasOne
+    {
+        return $this->hasOne(Subprojeto::class);
+    }
+
+    /**
+     * Demandas que o usuário pode ver: o admin vê todas; o coordenador, as dos projetos
+     * que coordena e as dos sub-projetos de que é responsável; o demandante, as que abriu;
+     * o estudante, as dos sub-projetos em que é membro da equipe.
+     *
+     * @param  Builder<Solicitacao>  $query
+     */
+    public function scopeVisiveisPara(Builder $query, Usuario $usuario): void
+    {
+        match ($usuario->perfil) {
+            Perfil::Admin => null,
+            Perfil::Coordenador => $query->where(fn (Builder $query) => $query
+                ->whereHas('projetoBase', fn (Builder $query) => $query->where('coordenador_id', $usuario->id))
+                ->orWhereHas('subprojeto', fn (Builder $query) => $query->where('coordenador_id', $usuario->id))),
+            Perfil::Demandante => $query->where('demandante_id', $usuario->id),
+            Perfil::Estudante => $query->whereHas('subprojeto.membrosAtivos', fn (Builder $query) => $query->where('estudante_id', $usuario->id)),
+            default => $query->whereRaw('1 = 0'),
+        };
+    }
+
+    /**
+     * Filtros da lista: título, status, projeto e prioridade.
+     *
+     * @param  Builder<Solicitacao>  $query
+     * @param  array{busca?: ?string, status?: ?string, projeto?: ?string, prioridade?: ?string}  $filtros
+     */
+    public function scopeFiltrar(Builder $query, array $filtros): void
+    {
+        $query
+            ->when($filtros['busca'] ?? null, fn (Builder $query, string $busca) => $query->where('titulo', 'like', "%{$busca}%"))
+            ->when($filtros['status'] ?? null, fn (Builder $query, string $status) => $query->where('status', $status))
+            ->when($filtros['projeto'] ?? null, fn (Builder $query, string $projeto) => $query->where('projeto_base_id', $projeto))
+            ->when($filtros['prioridade'] ?? null, fn (Builder $query, string $prioridade) => $query->where('prioridade_id', $prioridade));
+    }
+
+    /**
+     * Ordem da fila de triagem: prioridade definida pelo admin (sem prioridade por último) e depois as mais antigas.
+     *
+     * @param  Builder<Solicitacao>  $query
+     */
+    public function scopeOrdemDaFila(Builder $query): void
+    {
+        $query
+            ->leftJoin('prioridades', 'prioridades.id', '=', 'solicitacoes.prioridade_id')
+            ->select('solicitacoes.*')
+            ->orderByRaw('prioridades.ordem is null')
+            ->orderBy('prioridades.ordem')
+            ->orderBy('solicitacoes.created_at')
+            ->orderBy('solicitacoes.id');
+    }
+
+    /**
+     * Próximo status sugerido pelas entregas (RF13). A mudança continua manual (decisão da Fase 0).
+     * Ajustes pedidos na entrega mais recente vêm primeiro; depois, entregas em avaliação;
+     * com tudo avaliado e alguma entrega aceita, a sugestão é concluir.
+     */
+    public function statusSugerido(): ?StatusDemanda
+    {
+        $situacoes = $this->subprojeto?->entregas()->pluck('situacao') ?? collect();
+
+        $sugerido = match (true) {
+            $situacoes->isEmpty() => null,
+            $situacoes->last()->pedeAjustes() => StatusDemanda::AguardandoAjustes,
+            $situacoes->contains(fn (SituacaoEntrega $situacao) => $situacao->emAvaliacao()) => StatusDemanda::EmValidacao,
+            $situacoes->contains(SituacaoEntrega::Aceita) => StatusDemanda::Concluida,
+            default => null,
+        };
+
+        return $sugerido === $this->status ? null : $sugerido;
+    }
+
+    /**
+     * Quem coordena a demanda e recebe os avisos dela: o coordenador do Projeto Base e o responsável
+     * pelo sub-projeto. Sem nenhum dos dois (ex.: "Demandas Gerais" sem coordenador), os admins.
+     *
+     * @return Collection<int, Usuario>
+     */
+    public function coordenacao(): Collection
+    {
+        // E4 do teste completo: coordenador inativado ou com outro perfil não conta; sem ninguém, avisa os admins.
+        $coordenadores = collect([$this->projetoBase?->coordenador, $this->subprojeto?->coordenador])
+            ->filter(fn (?Usuario $coordenador) => $coordenador?->temPerfil(Perfil::Coordenador) && $coordenador->estaAtivo())
+            ->unique('id');
+
+        if ($coordenadores->isNotEmpty()) {
+            return $coordenadores->values();
+        }
+
+        return Usuario::query()->where('perfil', Perfil::Admin)->where('status', StatusUsuario::Ativo)->get();
+    }
+
+    /**
+     * Estudantes que estão na equipe do sub-projeto (sem os removidos).
+     *
+     * @return Collection<int, Usuario>
+     */
+    public function equipe(): Collection
+    {
+        return $this->subprojeto?->membrosAtivos()->with('estudante')->get()->pluck('estudante')->filter()->values() ?? collect();
+    }
+
+    public function foiTriada(): bool
+    {
+        return $this->categoria_id !== null && $this->prioridade_id !== null && $this->complexidade !== null;
+    }
+
+    /**
+     * Etapa da barra de progresso. Recusada ou cancelada, a demanda fica na etapa em que estava
+     * antes, conforme o histórico.
+     */
+    public function etapaDoProgresso(): int
+    {
+        if ($this->status->etapa() !== null) {
+            return $this->status->etapa();
+        }
+
+        $anterior = $this->historicos
+            ->where('tipo', TipoHistorico::Status)
+            ->last(fn (Historico $historico) => ($historico->dados['para'] ?? null) === $this->status->value);
+
+        return StatusDemanda::tryFrom($anterior?->dados['de'] ?? '')?->etapa() ?? 0;
+    }
+}

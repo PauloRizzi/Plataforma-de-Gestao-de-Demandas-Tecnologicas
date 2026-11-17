@@ -1,0 +1,316 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Cartões da tela "Criar conta"
+.cartao-escolha {
+    transition: transform .15s ease, box-shadow .15s ease;
+
+    &:hover,
+    &:focus {
+        transform: translateY(-2px);
+        box-shadow: $box-shadow !important;
+    }
+}
+
+// Upload com arrastar e soltar (nova demanda)
+.zona-upload {
+    border-style: dashed !important;
+    background-color: $white;
+    transition: background-color .15s ease, border-color .15s ease;
+
+    &.arrastando {
+        border-color: $primary !important;
+        background-color: tint-color($primary, 90%);
+    }
+}
+
+// Barra de progresso da demanda (RF08)
+.progresso-demanda {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        flex: 1 1 0;
+        position: relative;
+        text-align: center;
+        font-size: .75rem;
+        color: $text-muted;
+
+        // Linha que liga uma etapa à anterior.
+        &:not(:first-child)::before {
+            content: '';
+            position: absolute;
+            top: .75rem;
+            right: 50%;
+            width: 100%;
+            height: 3px;
+            background-color: $gray-300;
+            z-index: 0;
+        }
+
+        &.feita::before,
+        &.atual::before {
+            background-color: $primary;
+        }
+    }
+
+    .marcador {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        margin: 0 auto .25rem;
+        border-radius: 50%;
+        background-color: $white;
+        border: 3px solid $gray-300;
+        font-weight: $font-weight-bold;
+        line-height: 1;
+    }
+
+    .feita .marcador {
+        background-color: $primary;
+        border-color: $primary;
+        color: $white;
+    }
+
+    .atual {
+        color: $body-color;
+        font-weight: $font-weight-bold;
+
+        .marcador {
+            border-color: $primary;
+            box-shadow: 0 0 0 .25rem rgba($primary, .2);
+        }
+    }
+
+    .parada .marcador {
+        border-color: $danger;
+        background-color: $danger;
+        color: $white;
+    }
+
+    @include media-breakpoint-down(sm) {
+        .rotulo {
+            display: none;
+        }
+
+        .atual .rotulo {
+            display: block;
+        }
+    }
+}
+
+// Linha do tempo da demanda (RF08)
+.linha-do-tempo {
+    list-style: none;
+    padding: 0 0 0 1.25rem;
+    margin: 0;
+    border-left: 2px solid $gray-300;
+
+    li {
+        position: relative;
+        padding-bottom: .75rem;
+
+        &:last-child {
+            padding-bottom: 0;
+        }
+    }
+
+    .ponto {
+        position: absolute;
+        left: calc(-1.25rem - 6px);
+        top: .3rem;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+}
+
+// Fase 9: ponto do último registro, no cartão que abre a linha do tempo
+.ponto-linha-do-tempo {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+// Chat da demanda (RF08)
+.chat-demanda {
+    max-height: 28rem;
+    overflow-y: auto;
+
+    .balao {
+        max-width: 85%;
+        overflow-wrap: anywhere;
+    }
+
+    .texto {
+        white-space: pre-line;
+    }
+}
+
+// Dashboard gerencial (Fase 7): barras horizontais de uma só cor
+.barras {
+    .barra-linha {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        gap: .25rem .75rem;
+        align-items: center;
+        padding: .25rem 0;
+
+        @include media-breakpoint-down(sm) {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        &:hover .barra {
+            background-color: shade-color($primary, 25%);
+        }
+    }
+
+    .barra-trilho {
+        display: block;
+        height: .75rem;
+        background-color: var(--bs-tertiary-bg);
+        border-radius: 4px;
+    }
+
+    .barra {
+        display: block;
+        height: 100%;
+        background-color: $primary;
+        border-radius: 4px;
+    }
+
+    .barra-valor {
+        min-width: 5.5rem;
+        white-space: nowrap;
+    }
+}
+
+// Fase 9: imagem do Projeto Base (faixa no topo da tela e miniatura na lista)
+.capa-projeto {
+    overflow: hidden;
+    aspect-ratio: 16 / 5;
+    background-color: var(--bs-tertiary-bg);
+
+    @include media-breakpoint-down(md) {
+        aspect-ratio: 16 / 7;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.miniatura-projeto {
+    width: 4rem;
+    height: 2.25rem;
+    object-fit: cover;
+}
+
+// Fase 9: foto de perfil (ou avatar padrão do perfil)
+.avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background-color: var(--bs-tertiary-bg);
+
+    &.avatar-sm {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+
+    &.avatar-lg {
+        width: 8rem;
+        height: 8rem;
+    }
+}
+
+// Fase 9: cartões do relatório no celular (rótulo e valor na mesma linha)
+.relatorio-cartao {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 0.75rem;
+
+    dt {
+        font-weight: normal;
+        color: var(--bs-secondary-color);
+    }
+
+    dd {
+        margin-bottom: 0.15rem;
+        overflow-wrap: anywhere;
+    }
+}
+
+// Fase 9: combos com pesquisa (resources/js/combo-pesquisa.js)
+.combo-pesquisa {
+    position: relative;
+    min-width: 8rem;
+
+    .d-flex > & {
+        flex: 1 1 auto;
+    }
+
+    > .form-select {
+        min-height: calc(1.5em + 0.75rem + 2px);
+
+        &.form-select-sm {
+            min-height: calc(1.5em + 0.5rem + 2px);
+        }
+    }
+}
+
+.combo-pesquisa-painel {
+    position: fixed;
+    z-index: 1070;
+    max-width: min(36rem, calc(100vw - 1rem));
+    padding: 0.5rem;
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    box-shadow: var(--bs-box-shadow);
+
+    ul {
+        max-height: 16rem;
+        margin-top: 0.5rem !important;
+        overflow-y: auto;
+    }
+
+    li {
+        padding: 0.35rem 0.5rem 0.35rem 1.75rem;
+        border-radius: var(--bs-border-radius-sm);
+        cursor: pointer;
+        position: relative;
+
+        &.ativo {
+            background-color: var(--bs-primary-bg-subtle);
+        }
+
+        &.escolhido {
+            font-weight: 600;
+
+            &::before {
+                content: "\2713";
+                position: absolute;
+                left: 0.5rem;
+                color: var(--bs-primary);
+            }
+        }
+    }
+}
