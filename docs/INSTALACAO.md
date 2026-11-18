@@ -15,6 +15,14 @@ winget install ApacheFriends.Xampp.8.2
 
 - **Composer:** baixar em https://getcomposer.org/download/. Se o `Composer-Setup.exe` falhar no modo silencioso, usar o instalador normal (com janela).
 - **Extensões do PHP:** abrir o `php.ini` (o caminho aparece em `php --ini`) e tirar o `;` do começo destas linhas: `curl`, `fileinfo`, `gd`, `intl`, `mbstring`, `mysqli`, `openssl`, `pdo_mysql`, `pdo_sqlite`, `sodium`, `sqlite3`, `zip`. O `pdo_sqlite` e o `sqlite3` são usados pelos testes automatizados.
+- **Limites de upload do PHP:** no mesmo `php.ini`, ajustar estas duas linhas. Elas definem o maior arquivo e o maior envio que o sistema aceita (anexos das demandas, entregas e imagens); com os valores padrão (2M e 8M), envios maiores falham. Vale também para o servidor onde o sistema for publicado.
+
+```ini
+upload_max_filesize = 20M
+post_max_size = 110M
+```
+
+  Depois de salvar, fechar e abrir de novo o `php artisan serve` (e o servidor web, no caso do servidor de produção). O valor em uso aparece em **Admin → Parâmetros**.
 - Fechar e abrir o terminal de novo e conferir as versões (o PHP precisa ser 8.3 ou mais novo):
 
 ```powershell
@@ -117,4 +125,5 @@ O terminal mostra a lista das contas. A variável vale só para esse terminal: o
 | "Unable to locate file in Vite manifest" | Rodar `npm run build` |
 | "could not find driver" | A extensão `pdo_mysql` não foi ativada no `php.ini` |
 | "Connection refused" no banco | O MySQL não foi ligado no XAMPP Control Panel |
+| Envio de arquivo falha ou a página volta sem os dados | Ajustar `upload_max_filesize = 20M` e `post_max_size = 110M` no `php.ini` e reiniciar o servidor (passo 1) |
 | `php artisan db:show` dá erro | Normal no MariaDB 10.4 do XAMPP; o sistema funciona |
